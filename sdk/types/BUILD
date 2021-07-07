@@ -1,0 +1,33 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "go_default_library",
+    srcs = [
+        "ValidationError.go",
+        "balance.go",
+        "balance_data.go",
+        "configuration.go",
+        "data_message.go",
+        "enums.go",
+        "error.go",
+        "functions.go",
+        "interface.go",
+        "message.go",
+        "order_cancel_all.go",
+        "order_cancel_single.go",
+        "order_execution_report.go",
+        "order_execution_report_all.go",
+        "order_fill.go",
+        "order_new_single.go",
+        "order_side.go",
+        "order_status.go",
+        "order_type.go",
+        "position.go",
+        "position_data.go",
+        "severity.go",
+        "time_in_force.go",
+        "utils.go",
+    ],
+    importpath = "go-ws/sdk/types",
+    visibility = ["//visibility:public"],
+)
