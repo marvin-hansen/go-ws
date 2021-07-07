@@ -28,8 +28,15 @@ filegroup(
 
 go_library(
     name = "go_default_library",
-    srcs = ["main.go"],
+    srcs = [
+        "main.go",
+        "main_utils.go",
+    ],
     importpath = "go-ws/",
+    deps = [
+        "//sdk:go_default_library",
+        "//sdk/types:go_default_library",
+    ],
 )
 
 go_binary(

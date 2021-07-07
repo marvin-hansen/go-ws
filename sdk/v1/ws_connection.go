@@ -17,13 +17,16 @@ func (s SDKImpl) CloseConnection() (err error) {
 		close(stopC)
 	}
 
-	// close connection
-	err = con.Close()
-	if err != nil {
-		log.Println(mtd + "Can't close connection")
-		log.Println(err)
+	if con != nil {
+		// close connection
+		err = con.Close()
+		if err != nil {
+			log.Println(mtd + "Can't close connection")
+			log.Println(err)
+			return err
+		}
 	}
-	return err
+	return nil
 }
 
 func (s SDKImpl) ResetConnection() (err error) {

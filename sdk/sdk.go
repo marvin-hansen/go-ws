@@ -5,10 +5,10 @@ import (
 	v1 "go-ws/sdk/v1"
 )
 
-const apiVersion = t.V1
+const version = t.V1
 
 func NewSDK() (sdk t.SDK) {
-	sdk = getSDK(apiVersion)
+	sdk = getSDK(version)
 	return sdk
 }
 
