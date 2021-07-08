@@ -4,6 +4,8 @@ import (
 	SDK "go-ws/sdk"
 )
 
+const url = "ws://"
+
 func main() {
 	//TestWebSocket()
 
@@ -14,7 +16,7 @@ func TestConnection() {
 	printHeader("TestConnection!")
 
 	println(" * NewSDK!")
-	sdk := SDK.NewSDK()
+	sdk := SDK.NewSDK(url)
 
 	println(" * SetErrorInvoke!")
 	errH := GetErrorInvoke()

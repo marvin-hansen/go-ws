@@ -15,7 +15,7 @@ func GetErrorInvoke() t.InvokeFunction {
 	return func(message *t.DataMessage) (err error) {
 		mtd := "ErrorHandler: "
 		println(mtd)
-		msg := message.Text
+		msg := message.Message.GetMessage()
 		if msg != "" {
 			log.Println(mtd+"ErrorMessage: ", msg)
 			return errors.New(msg)

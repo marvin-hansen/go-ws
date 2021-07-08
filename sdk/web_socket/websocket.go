@@ -57,7 +57,7 @@ func (s *WebSocket) WriteByteMessage(byteMessage []byte) (err error) {
 	return nil
 }
 
-func (s *WebSocket) ReadByteMessages(messageHandler types.WsHandler, errorHandler types.WsErrHandler) (err error) {
+func (s *WebSocket) StartReadingByteMessages(messageHandler types.WsHandler, errorHandler types.WsErrHandler) (err error) {
 
 	doneC = make(chan struct{})
 	stopC = make(chan struct{})
@@ -93,4 +93,10 @@ func (s *WebSocket) ReadByteMessages(messageHandler types.WsHandler, errorHandle
 		}
 	}()
 	return
+}
+
+func (s *WebSocket) StopReadingByteMessages() {
+	if stopC != nil {
+		close(stopC)
+	}
 }

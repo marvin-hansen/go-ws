@@ -12,10 +12,21 @@ type SDKImpl struct {
 }
 
 var (
-	running         bool
-	errorInvoke     types.InvokeFunction
-	heartBeatInvoke types.InvokeFunction
-	reconnectInvoke types.InvokeFunction
+	running              bool
+	errorMessageInvoke   types.InvokeFunction
+	serverInfoInvoke     types.InvokeFunction
+	symbolSnapshotInvoke types.InvokeFunction
+
+	executionUpdateInvoke   types.InvokeFunction
+	executionSnapshotInvoke types.InvokeFunction
+
+	balanceUpdateInvoke   types.InvokeFunction
+	balanceSnapshotInvoke types.InvokeFunction
+
+	positionUpdateInvoke   types.InvokeFunction
+	positionSnapshotInvoke types.InvokeFunction
+
+	symbolInvoke types.InvokeFunction
 )
 
 func NewOemlSdkV1(url string) (sdk *SDKImpl) {
