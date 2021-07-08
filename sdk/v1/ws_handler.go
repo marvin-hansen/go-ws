@@ -38,6 +38,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 	switch messageType {
 
 	case t.ORDER_EXEC_REPORT_SNAPSHOT:
+		// https://docs.coinapi.io/oeml.html#order_exec_report_snapshot-in
 		msg := new(t.OrderExecutionReport)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.OrderExecutionReportSnapshot = msg
@@ -45,6 +46,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		return checkError(err)
 
 	case t.ORDER_EXEC_REPORT_UPDATE:
+		// https://docs.coinapi.io/oeml.html#order_exec_report_update-in
 		msg := new(t.OrderExecutionReport)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.OrderExecutionReportUpdate = msg
@@ -52,6 +54,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		return checkError(err)
 
 	case t.BALANCE_SNAPSHOT:
+		// https://docs.coinapi.io/oeml.html#balance_snapshot-in
 		msg := new(t.Balance)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.BalanceSnapshot = msg
@@ -59,6 +62,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		return checkError(err)
 
 	case t.BALANCE_UPDATE:
+		// https://docs.coinapi.io/oeml.html#balance_update-in
 		msg := new(t.Balance)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.BalanceUpdate = msg
@@ -66,6 +70,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		return checkError(err)
 
 	case t.POSITION_SNAPSHOT:
+		// https://docs.coinapi.io/oeml.html#position_snapshot-in
 		msg := new(t.Position)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.PositionSnapshot = msg
@@ -73,14 +78,15 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		return checkError(err)
 
 	case t.POSITION_UPDATE:
+		// https://docs.coinapi.io/oeml.html#position_update-in
 		msg := new(t.Position)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.PositionUpdate = msg
 		err = positionUpdateInvoke(dataMessage)
 		return checkError(err)
 
-
 	case t.SYMBOLS_SNAPSHOT:
+		// https://docs.coinapi.io/oeml.html#symbols_snapshot-in
 		msg := new(t.Symbols)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.SymbolSnapshot = msg
@@ -88,6 +94,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		return checkError(err)
 
 	case t.SERVER_INFO:
+		// https://docs.coinapi.io/oeml.html#symbols_snapshot-in
 		msg := new(t.ServerInfo)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.ServerInfo = msg
@@ -103,7 +110,6 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 	}
 
 	return nil
-
 }
 
 func (s SDKImpl) getMessageType(message []byte, errHandler t.WsErrHandler) (messageType t.MessageType) {
