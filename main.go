@@ -5,6 +5,8 @@ import (
 )
 
 func main() {
+	//TestWebSocket()
+
 	TestConnection()
 }
 
@@ -31,4 +33,8 @@ func printHeader(msg string) {
 	println("Start: " + msg)
 	println("=====================")
 	println()
+}
+
+func TestWebSocket() {
+	println("test in go-stream project!")
 }

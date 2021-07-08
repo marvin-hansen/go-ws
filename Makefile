@@ -9,9 +9,14 @@ CC=clang
 help:
 	@echo ''
 	@echo "Development targets: "
+	@echo '    make oeml   	Starts local OEML service.'
 	@echo '    make build   		Builds the code base incrementally (fast).'
 	@echo '    make rebuild   		Regenerates all dependencies & builds code base (slow).'
 	@echo '    make run   			Runs the  project binary.'
+
+.PHONY: oeml
+oeml:
+	@source scripts/docker_run.sh
 
 .PHONY: build
 build:

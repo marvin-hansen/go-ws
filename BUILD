@@ -36,6 +36,7 @@ go_library(
     deps = [
         "//sdk:go_default_library",
         "//sdk/types:go_default_library",
+        "//sdk/web_socket:go_default_library",
     ],
 )
 

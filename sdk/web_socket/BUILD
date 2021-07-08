@@ -3,14 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = [
-        "dbg_utils.go",
-        "sdk_impl.go",
-        "sdk_impl_utils.go",
-        "set_methods.go",
-        "ws_connection.go",
-        "ws_handler.go",
+        "utils.go",
+        "websocket.go",
     ],
-    importpath = "go-ws/sdk/v1",
+    importpath = "go-ws/sdk/web_socket",
     visibility = ["//visibility:public"],
     deps = [
         "//sdk/types:go_default_library",

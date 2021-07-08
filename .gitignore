@@ -5,6 +5,10 @@
 *.so
 *.dylib
 
+# local config & key files
+oeml.env
+apikey.txt
+
 # Test binary, built with `go test -c`
 *.test
 
