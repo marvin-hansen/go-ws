@@ -6,7 +6,5 @@ type SDK interface {
 	ResetConnection() (err error)
 	//
 	SetErrorInvoke(function InvokeFunction)
-	SetHeartBeatInvoke(function InvokeFunction)
-	SetReconnectInvoke(function InvokeFunction)
-	//
+	// Add remaining setters
 }

@@ -3,10 +3,10 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = [
+        "Server_info.go",
         "ValidationError.go",
         "balance.go",
         "balance_data.go",
-        "configuration.go",
         "data_message.go",
         "enums.go",
         "error.go",
@@ -25,6 +25,8 @@ go_library(
         "position.go",
         "position_data.go",
         "severity.go",
+        "symbol.go",
+        "symbol_data.go",
         "time_in_force.go",
         "utils.go",
     ],
