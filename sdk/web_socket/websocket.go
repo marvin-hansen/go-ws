@@ -8,10 +8,10 @@ import (
 )
 
 type WebSocket struct {
-	con *websocket.Conn
 }
 
 var (
+	con   *websocket.Conn
 	stopC chan struct{}
 	doneC chan struct{}
 )
@@ -26,7 +26,7 @@ func (s *WebSocket) init(url string) {
 }
 
 func (s *WebSocket) Connect(url string, requestHeader http.Header) (err error) {
-	s.con, _, err = websocket.DefaultDialer.Dial(url, nil)
+	con, _, err = websocket.DefaultDialer.Dial(url, nil)
 	if err != nil {
 		logError(err)
 		panic("Cannot connect to: " + url)
@@ -38,7 +38,7 @@ func (s *WebSocket) Close() (err error) {
 	if stopC != nil {
 		close(stopC)
 	}
-	err = s.con.Close()
+	err = con.Close()
 	if err != nil {
 		log.Println("Can't close connection")
 		logError(err)
@@ -48,7 +48,7 @@ func (s *WebSocket) Close() (err error) {
 
 func (s *WebSocket) WriteByteMessage(byteMessage []byte) (err error) {
 
-	err = s.con.WriteMessage(1, byteMessage)
+	err = con.WriteMessage(1, byteMessage)
 	if err != nil {
 		log.Println("can't send Hello message!")
 		logError(err)
@@ -76,12 +76,12 @@ func (s *WebSocket) ReadByteMessages(messageHandler types.WsHandler, errorHandle
 				silent = true
 			case <-doneC:
 			}
-			_ = s.con.Close()
+			_ = con.Close()
 		}()
 
 		var message []byte
 		for {
-			_, message, err = s.con.ReadMessage()
+			_, message, err = con.ReadMessage()
 			if err != nil {
 				if !silent {
 					errorHandler(err)
