@@ -6,6 +6,15 @@ import (
 	"log"
 )
 
+func GetSysInvoke() (sysInv t.SystemInvoke) {
+	sysInv = t.SystemInvoke{
+		ErrorMessageInvoke:   GetErrorInvoke(),
+		ServerInfoInvoke:     GetInvokeFunction(t.SERVER_INFO),
+		SymbolSnapshotInvoke: GetInvokeFunction(t.SYMBOLS_SNAPSHOT),
+	}
+	return sysInv
+}
+
 func GetErrorInvoke() t.InvokeFunction {
 	// You need to be prepared to receive an error message from us when you send something wrong;
 	// all errors are permanent and you should expect that the underlying

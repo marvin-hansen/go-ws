@@ -7,8 +7,6 @@ import (
 const url = "ws://"
 
 func main() {
-	//TestWebSocket()
-
 	TestConnection()
 }
 
@@ -18,9 +16,9 @@ func TestConnection() {
 	println(" * NewSDK!")
 	sdk := SDK.NewSDK(url)
 
-	//println(" * SetErrorInvoke!")
-	//errH := GetErrorInvoke()
-	//sdk.SetErrorInvoke(errH)
+	println(" * SetSysInvoke!")
+	sysInvoke := GetSysInvoke()
+	sdk.SetSystemInvoke(sysInvoke)
 
 	println(" * CloseConnection!")
 	_ = sdk.CloseConnection()
@@ -35,8 +33,4 @@ func printHeader(msg string) {
 	println("Start: " + msg)
 	println("=====================")
 	println()
-}
-
-func TestWebSocket() {
-	println("test in go-stream project!")
 }
