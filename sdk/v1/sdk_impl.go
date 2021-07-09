@@ -12,21 +12,16 @@ type SDKImpl struct {
 }
 
 var (
-	running              bool
 	errorMessageInvoke   types.InvokeFunction
 	serverInfoInvoke     types.InvokeFunction
 	symbolSnapshotInvoke types.InvokeFunction
 
 	executionUpdateInvoke   types.InvokeFunction
 	executionSnapshotInvoke types.InvokeFunction
-
-	balanceUpdateInvoke   types.InvokeFunction
-	balanceSnapshotInvoke types.InvokeFunction
-
-	positionUpdateInvoke   types.InvokeFunction
-	positionSnapshotInvoke types.InvokeFunction
-
-	symbolInvoke types.InvokeFunction
+	balanceUpdateInvoke     types.InvokeFunction
+	balanceSnapshotInvoke   types.InvokeFunction
+	positionUpdateInvoke    types.InvokeFunction
+	positionSnapshotInvoke  types.InvokeFunction
 )
 
 func NewOemlSdkV1(url string) (sdk *SDKImpl) {
@@ -48,7 +43,6 @@ func (s SDKImpl) OpenConnection() (err error) {
 }
 
 func (s SDKImpl) CloseConnection() (err error) {
-	running = false // Stop processing messages
 	err = s.ws.Close()
 	if err != nil {
 		log.Println("Can't close connection")

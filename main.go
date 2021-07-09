@@ -18,9 +18,9 @@ func TestConnection() {
 	println(" * NewSDK!")
 	sdk := SDK.NewSDK(url)
 
-	println(" * SetErrorInvoke!")
-	errH := GetErrorInvoke()
-	sdk.SetErrorInvoke(errH)
+	//println(" * SetErrorInvoke!")
+	//errH := GetErrorInvoke()
+	//sdk.SetErrorInvoke(errH)
 
 	println(" * CloseConnection!")
 	_ = sdk.CloseConnection()

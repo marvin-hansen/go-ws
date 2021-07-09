@@ -47,9 +47,7 @@ func (s SDKImpl) StartMessageProcessing() (err error) {
 	if err != nil {
 		log.Println("error starting message processing!")
 		logError(err)
-		running = false
 		return err
 	}
-	running = true
 	return nil
 }
