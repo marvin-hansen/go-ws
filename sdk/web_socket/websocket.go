@@ -35,9 +35,6 @@ func (s *WebSocket) Connect(url string, requestHeader http.Header) (err error) {
 }
 
 func (s *WebSocket) Close() (err error) {
-	if stopC != nil {
-		close(stopC)
-	}
 	err = con.Close()
 	if err != nil {
 		log.Println("Can't close connection")
@@ -88,7 +85,7 @@ func (s *WebSocket) StartReadingByteMessages(messageHandler types.WsHandler, err
 				}
 				return
 			}
-			printRawMsg(message)
+			//printRawMsg(message)
 			messageHandler(message)
 		}
 	}()
