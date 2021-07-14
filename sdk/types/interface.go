@@ -6,6 +6,9 @@ type SDK interface {
 	ResetConnection() (err error)
 	//
 	SetSystemInvoke(function SystemInvoke)
+	SetSnapshotInvoke(function SnapshotInvoke)
+	SetUpdateInvoke(function UpdateInvoke)
+	//
 	SetExecUpdateInvoke(function InvokeFunction)
 	SetExecSnapshotInvoke(function InvokeFunction)
 	SetBalanceUpdateInvoke(function InvokeFunction)

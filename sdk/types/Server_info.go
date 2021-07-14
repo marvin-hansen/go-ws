@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 type ServerInfo struct {
 	Time            *string `json:"time,omitempty"`
 	ExchangeId      *string `json:"exchange_id,omitempty"`
@@ -11,7 +13,15 @@ type ServerInfo struct {
 	ServerStartTime *string `json:"time_server_start,omitempty"`
 }
 
-func NewServerInfo() (this *ServerInfo) {
-	this = new(ServerInfo)
-	return this
+func (s ServerInfo) String() string {
+	return fmt.Sprintf("<ServerInfo> Time: %v, ExchangeId: %v, InstanceGuid: %v, ServerVersion: %v, ServerName: %v, DnsName:  %v, IsRunning  %v, ServerStartTime: %v",
+		*s.Time,
+		*s.ExchangeId,
+		*s.InstanceGuid,
+		*s.ServerVersion,
+		*s.ServerName,
+		*s.DnsName,
+		*s.IsRunning,
+		*s.ServerStartTime,
+	)
 }

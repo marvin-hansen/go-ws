@@ -1,6 +1,18 @@
 package types
 
-// SystemInvoke just bundles system invoke functions
+type UpdateInvoke struct {
+	ExecutionUpdateInvoke InvokeFunction
+	BalanceUpdateInvoke   InvokeFunction
+	PositionUpdateInvoke  InvokeFunction
+}
+
+type SnapshotInvoke struct {
+	ExecutionSnapshotInvoke InvokeFunction
+	BalanceSnapshotInvoke   InvokeFunction
+	PositionSnapshotInvoke  InvokeFunction
+}
+
+// SystemInvoke just bundles all system invoke functions
 type SystemInvoke struct {
 	ErrorMessageInvoke   InvokeFunction
 	ServerInfoInvoke     InvokeFunction
