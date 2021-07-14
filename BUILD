@@ -30,7 +30,6 @@ go_library(
     name = "go_default_library",
     srcs = [
         "main.go",
-        "main_utils.go",
     ],
     importpath = "go-ws/",
     deps = [
