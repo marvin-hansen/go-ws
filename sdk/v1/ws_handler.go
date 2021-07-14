@@ -18,8 +18,8 @@ func (s SDKImpl) getWSErrorHandler() (errHandler t.WsErrHandler) {
 
 func (s SDKImpl) getWSMessageHandler(errHandler t.WsErrHandler) (wsHandler t.WsHandler) {
 	wsHandler = func(message []byte) {
-		//s.processMessage(message, errHandler)
-		printRawMsg(message)
+		err := s.processMessage(message, errHandler)
+		errHandler(err)
 	}
 	return wsHandler
 }
@@ -43,6 +43,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.OrderExecutionReportSnapshot = msg
 		err = executionSnapshotInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.ORDER_EXEC_REPORT_UPDATE:
@@ -51,6 +52,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.OrderExecutionReportUpdate = msg
 		err = executionUpdateInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.BALANCE_SNAPSHOT:
@@ -59,6 +61,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.BalanceSnapshot = msg
 		err = balanceSnapshotInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.BALANCE_UPDATE:
@@ -67,6 +70,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.BalanceUpdate = msg
 		err = balanceUpdateInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.POSITION_SNAPSHOT:
@@ -75,6 +79,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.PositionSnapshot = msg
 		err = positionSnapshotInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.POSITION_UPDATE:
@@ -83,6 +88,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.PositionUpdate = msg
 		err = positionUpdateInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.SYMBOLS_SNAPSHOT:
@@ -91,6 +97,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.SymbolSnapshot = msg
 		err = symbolSnapshotInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.SERVER_INFO:
@@ -99,6 +106,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.ServerInfo = msg
 		err = serverInfoInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 
 	case t.MESSAGE:
@@ -106,6 +114,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		_ = json.Unmarshal(message, msg)
 		dataMessage.Message = msg
 		err = errorMessageInvoke(dataMessage)
+		errHandler(err)
 		return checkError(err)
 	}
 
