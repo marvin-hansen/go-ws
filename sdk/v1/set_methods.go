@@ -8,6 +8,18 @@ func (s SDKImpl) SetSystemInvoke(function types.SystemInvoke) {
 	symbolSnapshotInvoke = function.SymbolSnapshotInvoke
 }
 
+func (s SDKImpl) SetSnapshotInvoke(function types.SnapshotInvoke) {
+	executionSnapshotInvoke = function.ExecutionSnapshotInvoke
+	balanceSnapshotInvoke = function.BalanceSnapshotInvoke
+	positionSnapshotInvoke = function.PositionSnapshotInvoke
+}
+
+func (s SDKImpl) SetUpdateInvoke(function types.UpdateInvoke) {
+	executionUpdateInvoke = function.ExecutionUpdateInvoke
+	balanceUpdateInvoke = function.BalanceUpdateInvoke
+	positionUpdateInvoke = function.PositionUpdateInvoke
+}
+
 func (s SDKImpl) SetExecUpdateInvoke(function types.InvokeFunction) {
 	executionUpdateInvoke = function
 }
