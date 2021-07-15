@@ -28,9 +28,7 @@ filegroup(
 
 go_library(
     name = "go_default_library",
-    srcs = [
-        "main.go",
-    ],
+    srcs = ["main.go"],
     importpath = "go-ws/",
     deps = [
         "//sdk:go_default_library",

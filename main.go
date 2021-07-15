@@ -14,13 +14,45 @@ const url = "ws://127.0.0.1:8080"
 func main() {
 	sdk := getSDK()
 
-	TestConnection(sdk)
+	TestOrder(sdk)
+	//TestConnection(sdk)
 }
 
 func TestOrder(sdk t.SDK) {
 	printHeader("TestOrder!")
-
 	time.Sleep(1 * time.Second)
+
+	printHeader("Lookup symbol!")
+
+	exchangeID := "BINANCE"
+	baseID := "ATOM"
+	quoteID := "BUSD"
+	printSymbol(sdk, exchangeID, baseID, quoteID)
+
+	exchangeID = "BINANCE"
+	baseID = "BTC"
+	quoteID = "USDT"
+	printSymbol(sdk, exchangeID, baseID, quoteID)
+
+	printHeader("Construct order!")
+
+	var err error
+	clientOrderID := "BINANCE-7d8a-4888-a733-6007093f8332"
+	//reqOrder := t.NewOrderNewSingleRequest(exchangeID, clientOrderID )
+	//err := sdk.PlaceSingleOrder(reqOrder)
+	//logError(err)
+
+	printHeader("Place  order!")
+
+	printHeader("Cancel order!")
+	reqCancel := sdk.NewCancelSingleOrderRequest(exchangeID, "", clientOrderID)
+	err = sdk.CancelSingleOrder(reqCancel)
+	logError(err)
+
+	printHeader("Cancel all orders!")
+	reqCacelAll := sdk.NewCancelAllOrdersRequest(exchangeID)
+	err = sdk.CancelAllOrders(reqCacelAll)
+	logError(err)
 
 	println(" * CloseConnection!")
 	_ = sdk.CloseConnection()
@@ -58,12 +90,30 @@ func getSDK() (sdk t.SDK) {
 	return sdk
 }
 
+func logError(err error) {
+	if err != nil {
+		log.Println(err)
+	}
+}
+
 func printHeader(msg string) {
 	println()
 	println("=====================")
 	println("Start: " + msg)
 	println("=====================")
 	println()
+}
+
+func printSymbol(sdk t.SDK, exchangeID, baseID, quoteID string) {
+	println("")
+	println("Lookup symbol for: " + baseID + "/" + quoteID)
+	symbol, ok := sdk.LookupSymbolData(exchangeID, baseID, quoteID)
+	if ok {
+		println("OK:")
+		println(symbol.String())
+	}
+	println("")
+
 }
 
 func GetSnapshotInvoke() (snapInv t.SnapshotInvoke) {
@@ -121,19 +171,19 @@ func GetInvokeFunction(msgType t.MessageType) t.InvokeFunction {
 func printMessage(msgType t.MessageType, message *t.DataMessage) {
 	switch msgType {
 	case t.SERVER_INFO:
-		log.Println("ServerInfo")
-
-		msg := message
-		log.Println(msg.ServerInfo)
+		log.Println("ServerInfo/Heartbeat")
+		//msg := message
+		//log.Println(msg.ServerInfo)
 		println()
+
 	case t.ORDER_EXEC_REPORT_SNAPSHOT:
-		msg := message
 		log.Println("OrderExecutionReportSnapshot")
+		msg := message
 		log.Println(msg.OrderExecutionReportSnapshot)
 		println()
 	case t.ORDER_EXEC_REPORT_UPDATE:
-		msg := message
 		log.Println("OrderExecutionReportUpdate")
+		msg := message
 		log.Println(msg.OrderExecutionReportUpdate)
 		println()
 	case t.BALANCE_SNAPSHOT:
@@ -147,19 +197,21 @@ func printMessage(msgType t.MessageType, message *t.DataMessage) {
 		log.Println(msg.BalanceUpdate)
 		println()
 	case t.POSITION_SNAPSHOT:
-		msg := message
 		log.Println("PositionSnapshot")
+
+		msg := message
 		log.Println(msg.PositionSnapshot)
 		println()
 	case t.POSITION_UPDATE:
-		msg := message
 		log.Println("PositionUpdate")
+
+		msg := message
 		log.Println(msg.PositionUpdate)
 		println()
 	case t.SYMBOLS_SNAPSHOT:
 		log.Println("SymbolSnapshot")
-		msg := message
-		log.Println(msg.SymbolSnapshot)
+		//msg := message
+		//log.Println(msg.SymbolSnapshot)
 		println()
 	case t.MESSAGE:
 		log.Println("Message")
