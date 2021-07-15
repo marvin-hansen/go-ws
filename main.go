@@ -10,10 +10,10 @@ import (
 
 //  kubectl port-forward svc/oeml-api-composite 8080:80
 const url = "ws://127.0.0.1:8080"
+const verbose = false
 
 func main() {
 	sdk := getSDK()
-
 	TestOrder(sdk)
 	//TestConnection(sdk)
 }
@@ -172,9 +172,11 @@ func printMessage(msgType t.MessageType, message *t.DataMessage) {
 	switch msgType {
 	case t.SERVER_INFO:
 		log.Println("ServerInfo/Heartbeat")
-		//msg := message
-		//log.Println(msg.ServerInfo)
-		println()
+		if verbose {
+			msg := message
+			log.Println(msg.ServerInfo)
+			println()
+		}
 
 	case t.ORDER_EXEC_REPORT_SNAPSHOT:
 		log.Println("OrderExecutionReportSnapshot")
@@ -198,20 +200,20 @@ func printMessage(msgType t.MessageType, message *t.DataMessage) {
 		println()
 	case t.POSITION_SNAPSHOT:
 		log.Println("PositionSnapshot")
-
 		msg := message
 		log.Println(msg.PositionSnapshot)
 		println()
 	case t.POSITION_UPDATE:
 		log.Println("PositionUpdate")
-
 		msg := message
 		log.Println(msg.PositionUpdate)
 		println()
 	case t.SYMBOLS_SNAPSHOT:
 		log.Println("SymbolSnapshot")
-		//msg := message
-		//log.Println(msg.SymbolSnapshot)
+		if verbose {
+			msg := message
+			log.Println(msg.SymbolSnapshot)
+		}
 		println()
 	case t.MESSAGE:
 		log.Println("Message")
