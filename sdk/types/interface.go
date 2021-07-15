@@ -5,6 +5,8 @@ type SDK interface {
 	CloseConnection() (err error)
 	ResetConnection() (err error)
 	//
+	LookupSymbolData(exchangeID, baseSymbolCoinApi, quoteSymbolCoinApi string) (ok bool, symbolData SymbolData)
+	//
 	SetSystemInvoke(function SystemInvoke)
 	SetSnapshotInvoke(function SnapshotInvoke)
 	SetUpdateInvoke(function UpdateInvoke)

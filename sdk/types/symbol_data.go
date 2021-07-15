@@ -14,7 +14,7 @@ type SymbolData struct {
 }
 
 func (s SymbolData) String() string {
-	return fmt.Sprintf("<SymbolData> Symbol_id_coinapi: %v, Symbol_id_base_exchange: %v, Asset_id_base_exchange: %v, Asset_id_quote_exchange: %v, Asset_id_base_coinapi: %v, Asset_id_quote_coinapi:  %v, Price_precision  %v, Size_precision: %v",
+	return fmt.Sprintf("<SymbolData> \n Symbol_id_coinapi: %v, \n Symbol_id_base_exchange: %v, \n Asset_id_base_exchange: %v, \n Asset_id_quote_exchange: %v, \n Asset_id_base_coinapi: %v, \n Asset_id_quote_coinapi:  %v, \n Price_precision  %v, \n Size_precision: %v",
 		*s.Symbol_id_coinapi,
 		*s.Symbol_id_base_exchange,
 		*s.Asset_id_base_exchange,

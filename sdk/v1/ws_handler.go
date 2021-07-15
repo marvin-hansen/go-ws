@@ -96,6 +96,13 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		msg := new(t.Symbols)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.SymbolSnapshot = msg
+
+		exchangeID := *dataMessage.SymbolSnapshot.ExchangeId
+		s.AddNewSymbolMap(exchangeID)
+		for _, symbolData := range *dataMessage.SymbolSnapshot.Data {
+			s.addSymbolData(exchangeID, symbolData)
+		}
+
 		err = symbolSnapshotInvoke(dataMessage)
 		errHandler(err)
 		return checkError(err)

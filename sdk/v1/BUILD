@@ -3,6 +3,7 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "go_default_library",
     srcs = [
+        "asset_symbols.go",
         "dbg_utils.go",
         "sdk_impl.go",
         "sdk_impl_utils.go",

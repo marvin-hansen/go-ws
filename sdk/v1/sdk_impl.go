@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"go-ws/sdk/types"
+	t "go-ws/sdk/types"
 	"go-ws/sdk/web_socket"
 	"log"
 )
@@ -11,17 +11,25 @@ type SDKImpl struct {
 	ws  *web_socket.WebSocket
 }
 
-var (
-	errorMessageInvoke   types.InvokeFunction
-	serverInfoInvoke     types.InvokeFunction
-	symbolSnapshotInvoke types.InvokeFunction
+// AssetKey is a composite key for a hashmap to access symbol description
+// https://stackoverflow.com/questions/52348514/how-to-make-composite-key-for-a-hash-map-in-golang
+type AssetKey struct {
+	Base, Quote string
+}
 
-	executionUpdateInvoke   types.InvokeFunction
-	executionSnapshotInvoke types.InvokeFunction
-	balanceUpdateInvoke     types.InvokeFunction
-	balanceSnapshotInvoke   types.InvokeFunction
-	positionUpdateInvoke    types.InvokeFunction
-	positionSnapshotInvoke  types.InvokeFunction
+var (
+	errorMessageInvoke   t.InvokeFunction
+	serverInfoInvoke     t.InvokeFunction
+	symbolSnapshotInvoke t.InvokeFunction
+
+	executionUpdateInvoke   t.InvokeFunction
+	executionSnapshotInvoke t.InvokeFunction
+	balanceUpdateInvoke     t.InvokeFunction
+	balanceSnapshotInvoke   t.InvokeFunction
+	positionUpdateInvoke    t.InvokeFunction
+	positionSnapshotInvoke  t.InvokeFunction
+	//
+	symbolMap map[string]map[AssetKey]t.SymbolData
 )
 
 func NewOemlSdkV1(url string) (sdk *SDKImpl) {
@@ -31,6 +39,9 @@ func NewOemlSdkV1(url string) (sdk *SDKImpl) {
 }
 
 func (s SDKImpl) init(url string) {
+	// init AssetMap
+	symbolMap = make(map[string]map[AssetKey]t.SymbolData)
+
 	ws := web_socket.NewWebSocket(url)
 	s.url = &url
 	s.ws = ws
