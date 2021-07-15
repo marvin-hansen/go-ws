@@ -2,19 +2,18 @@ package v1
 
 import "go-ws/sdk/types"
 
-func (s SDKImpl) LookupSymbolData(exchangeID, baseSymbolCoinApi, quoteSymbolCoinApi string) (ok bool, symbolData types.SymbolData) {
+func (s SDKImpl) LookupSymbolData(exchangeID, baseSymbolCoinApi, quoteSymbolCoinApi string) (symbolData types.SymbolData, ok bool) {
 	assetKey := AssetKey{
 		Base:  baseSymbolCoinApi,
 		Quote: quoteSymbolCoinApi,
 	}
 	exists := s.checkSymbolExists(exchangeID, assetKey)
 	if exists {
-		return exists, symbolMap[exchangeID][assetKey]
+		return symbolMap[exchangeID][assetKey], exists
 	} else {
-		return exists, types.SymbolData{}
+		return types.SymbolData{}, exists
 	}
 }
-
 func (s SDKImpl) getSymbolData(exchangeID string, assetKey AssetKey) (ok bool, symbolData types.SymbolData) {
 	exists := s.checkSymbolExists(exchangeID, assetKey)
 	if exists {
@@ -25,7 +24,6 @@ func (s SDKImpl) getSymbolData(exchangeID string, assetKey AssetKey) (ok bool, s
 }
 
 func (s SDKImpl) addSymbolData(exchangeID string, symbolData types.SymbolData) {
-
 	assetKey := AssetKey{
 		Base:  *symbolData.Asset_id_base_coinapi,
 		Quote: *symbolData.Asset_id_quote_coinapi,
