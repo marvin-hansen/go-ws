@@ -17,6 +17,15 @@ var allowedOrdTypeEnumValues = []OrdType{
 	"LIMIT",
 }
 
+func (v *OrdType) String() string {
+	switch *v {
+	case LIMIT:
+		return "LIMIT"
+	default:
+		return "UNKNOWN OrdType"
+	}
+}
+
 func (v *OrdType) UnmarshalJSON(src []byte) error {
 	var value string
 	err := json.Unmarshal(src, &value)

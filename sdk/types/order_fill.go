@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // Fills struct for Fills
@@ -9,9 +10,17 @@ type Fills struct {
 	// Execution time.
 	Time *string `json:"time,omitempty"`
 	// Execution price.
-	Price *float32 `json:"price,omitempty"`
+	Price *float64 `json:"price,omitempty"`
 	// Executed quantity.
-	Amount *float32 `json:"amount,omitempty"`
+	Amount *float64 `json:"amount,omitempty"`
+}
+
+func (o *Fills) String() string {
+	return fmt.Sprintf("<Fills> Time: %v, Price: %v, Amount: %v",
+		o.Time,
+		o.Price,
+		o.Amount,
+	)
 }
 
 // NewFills instantiates a new Fills object
@@ -64,9 +73,9 @@ func (o *Fills) SetTime(v string) {
 }
 
 // GetPrice returns the Price field value if set, zero value otherwise.
-func (o *Fills) GetPrice() float32 {
+func (o *Fills) GetPrice() float64 {
 	if o == nil || o.Price == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.Price
@@ -74,7 +83,7 @@ func (o *Fills) GetPrice() float32 {
 
 // GetPriceOk returns a tuple with the Price field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Fills) GetPriceOk() (*float32, bool) {
+func (o *Fills) GetPriceOk() (*float64, bool) {
 	if o == nil || o.Price == nil {
 		return nil, false
 	}
@@ -90,15 +99,15 @@ func (o *Fills) HasPrice() bool {
 	return false
 }
 
-// SetPrice gets a reference to the given float32 and assigns it to the Price field.
-func (o *Fills) SetPrice(v float32) {
+// SetPrice gets a reference to the given float64 and assigns it to the Price field.
+func (o *Fills) SetPrice(v float64) {
 	o.Price = &v
 }
 
 // GetAmount returns the Amount field value if set, zero value otherwise.
-func (o *Fills) GetAmount() float32 {
+func (o *Fills) GetAmount() float64 {
 	if o == nil || o.Amount == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.Amount
@@ -106,7 +115,7 @@ func (o *Fills) GetAmount() float32 {
 
 // GetAmountOk returns a tuple with the Amount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Fills) GetAmountOk() (*float32, bool) {
+func (o *Fills) GetAmountOk() (*float64, bool) {
 	if o == nil || o.Amount == nil {
 		return nil, false
 	}
@@ -122,8 +131,8 @@ func (o *Fills) HasAmount() bool {
 	return false
 }
 
-// SetAmount gets a reference to the given float32 and assigns it to the Amount field.
-func (o *Fills) SetAmount(v float32) {
+// SetAmount gets a reference to the given float64 and assigns it to the Amount field.
+func (o *Fills) SetAmount(v float64) {
 	o.Amount = &v
 }
 

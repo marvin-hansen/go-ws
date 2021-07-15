@@ -11,11 +11,11 @@ type OrderExecutionReportAllOf struct {
 	// Unique identifier of the order assigned by the exchange or executing system.
 	ExchangeOrderId *string `json:"exchange_order_id,omitempty"`
 	// Quantity open for further execution. `amount_open` = `amount_order` - `amount_filled`
-	AmountOpen float32 `json:"amount_open"`
+	AmountOpen float64 `json:"amount_open"`
 	// Total quantity filled.
-	AmountFilled float32 `json:"amount_filled"`
+	AmountFilled float64 `json:"amount_filled"`
 	// Calculated average price of all fills on this order.
-	AvgPx  *float32  `json:"avg_px,omitempty"`
+	AvgPx  *float64  `json:"avg_px,omitempty"`
 	Status OrdStatus `json:"status"`
 	// Timestamped history of order status changes.
 	StatusHistory *[][]string `json:"status_history,omitempty"`
@@ -29,7 +29,7 @@ type OrderExecutionReportAllOf struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOrderExecutionReportAllOf(clientOrderIdFormatExchange string, amountOpen float32, amountFilled float32, status OrdStatus) *OrderExecutionReportAllOf {
+func NewOrderExecutionReportAllOf(clientOrderIdFormatExchange string, amountOpen float64, amountFilled float64, status OrdStatus) *OrderExecutionReportAllOf {
 	this := OrderExecutionReportAllOf{}
 	this.ClientOrderIdFormatExchange = clientOrderIdFormatExchange
 	this.AmountOpen = amountOpen
@@ -103,9 +103,9 @@ func (o *OrderExecutionReportAllOf) SetExchangeOrderId(v string) {
 }
 
 // GetAmountOpen returns the AmountOpen field value
-func (o *OrderExecutionReportAllOf) GetAmountOpen() float32 {
+func (o *OrderExecutionReportAllOf) GetAmountOpen() float64 {
 	if o == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 
@@ -114,7 +114,7 @@ func (o *OrderExecutionReportAllOf) GetAmountOpen() float32 {
 
 // GetAmountOpenOk returns a tuple with the AmountOpen field value
 // and a boolean to check if the value has been set.
-func (o *OrderExecutionReportAllOf) GetAmountOpenOk() (*float32, bool) {
+func (o *OrderExecutionReportAllOf) GetAmountOpenOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -122,14 +122,14 @@ func (o *OrderExecutionReportAllOf) GetAmountOpenOk() (*float32, bool) {
 }
 
 // SetAmountOpen sets field value
-func (o *OrderExecutionReportAllOf) SetAmountOpen(v float32) {
+func (o *OrderExecutionReportAllOf) SetAmountOpen(v float64) {
 	o.AmountOpen = v
 }
 
 // GetAmountFilled returns the AmountFilled field value
-func (o *OrderExecutionReportAllOf) GetAmountFilled() float32 {
+func (o *OrderExecutionReportAllOf) GetAmountFilled() float64 {
 	if o == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 
@@ -138,7 +138,7 @@ func (o *OrderExecutionReportAllOf) GetAmountFilled() float32 {
 
 // GetAmountFilledOk returns a tuple with the AmountFilled field value
 // and a boolean to check if the value has been set.
-func (o *OrderExecutionReportAllOf) GetAmountFilledOk() (*float32, bool) {
+func (o *OrderExecutionReportAllOf) GetAmountFilledOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -146,14 +146,14 @@ func (o *OrderExecutionReportAllOf) GetAmountFilledOk() (*float32, bool) {
 }
 
 // SetAmountFilled sets field value
-func (o *OrderExecutionReportAllOf) SetAmountFilled(v float32) {
+func (o *OrderExecutionReportAllOf) SetAmountFilled(v float64) {
 	o.AmountFilled = v
 }
 
 // GetAvgPx returns the AvgPx field value if set, zero value otherwise.
-func (o *OrderExecutionReportAllOf) GetAvgPx() float32 {
+func (o *OrderExecutionReportAllOf) GetAvgPx() float64 {
 	if o == nil || o.AvgPx == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.AvgPx
@@ -161,7 +161,7 @@ func (o *OrderExecutionReportAllOf) GetAvgPx() float32 {
 
 // GetAvgPxOk returns a tuple with the AvgPx field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OrderExecutionReportAllOf) GetAvgPxOk() (*float32, bool) {
+func (o *OrderExecutionReportAllOf) GetAvgPxOk() (*float64, bool) {
 	if o == nil || o.AvgPx == nil {
 		return nil, false
 	}
@@ -177,8 +177,8 @@ func (o *OrderExecutionReportAllOf) HasAvgPx() bool {
 	return false
 }
 
-// SetAvgPx gets a reference to the given float32 and assigns it to the AvgPx field.
-func (o *OrderExecutionReportAllOf) SetAvgPx(v float32) {
+// SetAvgPx gets a reference to the given float64 and assigns it to the AvgPx field.
+func (o *OrderExecutionReportAllOf) SetAvgPx(v float64) {
 	o.AvgPx = &v
 }
 

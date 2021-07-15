@@ -25,6 +25,23 @@ var allowedTimeInForceEnumValues = []TimeInForce{
 	"IMMEDIATE_OR_CANCEL",
 }
 
+func (v *TimeInForce) String() string {
+	switch *v {
+	case GOOD_TILL_CANCEL:
+		return "GOOD_TILL_CANCEL"
+	case GOOD_TILL_TIME_EXCHANGE:
+		return "GOOD_TILL_TIME_EXCHANGE"
+	case GOOD_TILL_TIME_OMS:
+		return "GOOD_TILL_TIME_OMS"
+	case FILL_OR_KILL:
+		return "FILL_OR_KILL"
+	case IMMEDIATE_OR_CANCEL:
+		return "IMMEDIATE_OR_CANCEL"
+	default:
+		return "UNKNOWN TimeInForce"
+	}
+}
+
 func (v *TimeInForce) UnmarshalJSON(src []byte) error {
 	var value string
 	err := json.Unmarshal(src, &value)

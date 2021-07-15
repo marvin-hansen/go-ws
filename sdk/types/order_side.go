@@ -19,6 +19,17 @@ var allowedOrdSideEnumValues = []OrdSide{
 	"SELL",
 }
 
+func (v *OrdSide) String() string {
+	switch *v {
+	case BUY:
+		return "BUY"
+	case SELL:
+		return "SELL"
+	default:
+		return "UNKNOWN OrdSide"
+	}
+}
+
 func (v *OrdSide) UnmarshalJSON(src []byte) error {
 	var value string
 	err := json.Unmarshal(src, &value)

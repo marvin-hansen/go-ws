@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // PositionData The Position object.
@@ -11,19 +12,33 @@ type PositionData struct {
 	// CoinAPI symbol.
 	SymbolIdCoinapi *string `json:"symbol_id_coinapi,omitempty"`
 	// Calculated average price of all fills on this position.
-	AvgEntryPrice *float32 `json:"avg_entry_price,omitempty"`
+	AvgEntryPrice *float64 `json:"avg_entry_price,omitempty"`
 	// The current position quantity.
-	Quantity *float32 `json:"quantity,omitempty"`
+	Quantity *float64 `json:"quantity,omitempty"`
 	Side     *OrdSide `json:"side,omitempty"`
 	// Unrealised profit or loss (PNL) of this position.
-	UnrealizedPnl *float32 `json:"unrealized_pnl,omitempty"`
+	UnrealizedPnl *float64 `json:"unrealized_pnl,omitempty"`
 	// Leverage for this position reported by the exchange.
-	Leverage *float32 `json:"leverage,omitempty"`
+	Leverage *float64 `json:"leverage,omitempty"`
 	// Is cross margin mode enable for this position?
 	CrossMargin *bool `json:"cross_margin,omitempty"`
 	// Liquidation price. If mark price will reach this value, the position will be liquidated.
-	LiquidationPrice *float32                `json:"liquidation_price,omitempty"`
+	LiquidationPrice *float64                `json:"liquidation_price,omitempty"`
 	RawData          *map[string]interface{} `json:"raw_data,omitempty"`
+}
+
+func (o *PositionData) String() string {
+	return fmt.Sprintf("<PositionData> SymbolIdExchange: %v, SymbolIdCoinapi: %v, AvgEntryPrice: %v, Quantity: %v, Side: %v, UnrealizedPnl:  %v, Leverage  %v, Leverage: %v, CrossMargin: %v, LiquidationPrice: %v",
+		o.SymbolIdExchange,
+		o.SymbolIdCoinapi,
+		o.AvgEntryPrice,
+		o.Quantity,
+		o.Side,
+		o.UnrealizedPnl,
+		o.Leverage,
+		o.CrossMargin,
+		o.LiquidationPrice,
+	)
 }
 
 // NewPositionData instantiates a new PositionData object
@@ -108,9 +123,9 @@ func (o *PositionData) SetSymbolIdCoinapi(v string) {
 }
 
 // GetAvgEntryPrice returns the AvgEntryPrice field value if set, zero value otherwise.
-func (o *PositionData) GetAvgEntryPrice() float32 {
+func (o *PositionData) GetAvgEntryPrice() float64 {
 	if o == nil || o.AvgEntryPrice == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.AvgEntryPrice
@@ -118,7 +133,7 @@ func (o *PositionData) GetAvgEntryPrice() float32 {
 
 // GetAvgEntryPriceOk returns a tuple with the AvgEntryPrice field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PositionData) GetAvgEntryPriceOk() (*float32, bool) {
+func (o *PositionData) GetAvgEntryPriceOk() (*float64, bool) {
 	if o == nil || o.AvgEntryPrice == nil {
 		return nil, false
 	}
@@ -134,15 +149,15 @@ func (o *PositionData) HasAvgEntryPrice() bool {
 	return false
 }
 
-// SetAvgEntryPrice gets a reference to the given float32 and assigns it to the AvgEntryPrice field.
-func (o *PositionData) SetAvgEntryPrice(v float32) {
+// SetAvgEntryPrice gets a reference to the given float64 and assigns it to the AvgEntryPrice field.
+func (o *PositionData) SetAvgEntryPrice(v float64) {
 	o.AvgEntryPrice = &v
 }
 
 // GetQuantity returns the Quantity field value if set, zero value otherwise.
-func (o *PositionData) GetQuantity() float32 {
+func (o *PositionData) GetQuantity() float64 {
 	if o == nil || o.Quantity == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.Quantity
@@ -150,7 +165,7 @@ func (o *PositionData) GetQuantity() float32 {
 
 // GetQuantityOk returns a tuple with the Quantity field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PositionData) GetQuantityOk() (*float32, bool) {
+func (o *PositionData) GetQuantityOk() (*float64, bool) {
 	if o == nil || o.Quantity == nil {
 		return nil, false
 	}
@@ -166,8 +181,8 @@ func (o *PositionData) HasQuantity() bool {
 	return false
 }
 
-// SetQuantity gets a reference to the given float32 and assigns it to the Quantity field.
-func (o *PositionData) SetQuantity(v float32) {
+// SetQuantity gets a reference to the given float64 and assigns it to the Quantity field.
+func (o *PositionData) SetQuantity(v float64) {
 	o.Quantity = &v
 }
 
@@ -204,9 +219,9 @@ func (o *PositionData) SetSide(v OrdSide) {
 }
 
 // GetUnrealizedPnl returns the UnrealizedPnl field value if set, zero value otherwise.
-func (o *PositionData) GetUnrealizedPnl() float32 {
+func (o *PositionData) GetUnrealizedPnl() float64 {
 	if o == nil || o.UnrealizedPnl == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.UnrealizedPnl
@@ -214,7 +229,7 @@ func (o *PositionData) GetUnrealizedPnl() float32 {
 
 // GetUnrealizedPnlOk returns a tuple with the UnrealizedPnl field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PositionData) GetUnrealizedPnlOk() (*float32, bool) {
+func (o *PositionData) GetUnrealizedPnlOk() (*float64, bool) {
 	if o == nil || o.UnrealizedPnl == nil {
 		return nil, false
 	}
@@ -230,15 +245,15 @@ func (o *PositionData) HasUnrealizedPnl() bool {
 	return false
 }
 
-// SetUnrealizedPnl gets a reference to the given float32 and assigns it to the UnrealizedPnl field.
-func (o *PositionData) SetUnrealizedPnl(v float32) {
+// SetUnrealizedPnl gets a reference to the given float64 and assigns it to the UnrealizedPnl field.
+func (o *PositionData) SetUnrealizedPnl(v float64) {
 	o.UnrealizedPnl = &v
 }
 
 // GetLeverage returns the Leverage field value if set, zero value otherwise.
-func (o *PositionData) GetLeverage() float32 {
+func (o *PositionData) GetLeverage() float64 {
 	if o == nil || o.Leverage == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.Leverage
@@ -246,7 +261,7 @@ func (o *PositionData) GetLeverage() float32 {
 
 // GetLeverageOk returns a tuple with the Leverage field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PositionData) GetLeverageOk() (*float32, bool) {
+func (o *PositionData) GetLeverageOk() (*float64, bool) {
 	if o == nil || o.Leverage == nil {
 		return nil, false
 	}
@@ -262,8 +277,8 @@ func (o *PositionData) HasLeverage() bool {
 	return false
 }
 
-// SetLeverage gets a reference to the given float32 and assigns it to the Leverage field.
-func (o *PositionData) SetLeverage(v float32) {
+// SetLeverage gets a reference to the given float64 and assigns it to the Leverage field.
+func (o *PositionData) SetLeverage(v float64) {
 	o.Leverage = &v
 }
 
@@ -300,9 +315,9 @@ func (o *PositionData) SetCrossMargin(v bool) {
 }
 
 // GetLiquidationPrice returns the LiquidationPrice field value if set, zero value otherwise.
-func (o *PositionData) GetLiquidationPrice() float32 {
+func (o *PositionData) GetLiquidationPrice() float64 {
 	if o == nil || o.LiquidationPrice == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.LiquidationPrice
@@ -310,7 +325,7 @@ func (o *PositionData) GetLiquidationPrice() float32 {
 
 // GetLiquidationPriceOk returns a tuple with the LiquidationPrice field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PositionData) GetLiquidationPriceOk() (*float32, bool) {
+func (o *PositionData) GetLiquidationPriceOk() (*float64, bool) {
 	if o == nil || o.LiquidationPrice == nil {
 		return nil, false
 	}
@@ -326,8 +341,8 @@ func (o *PositionData) HasLiquidationPrice() bool {
 	return false
 }
 
-// SetLiquidationPrice gets a reference to the given float32 and assigns it to the LiquidationPrice field.
-func (o *PositionData) SetLiquidationPrice(v float32) {
+// SetLiquidationPrice gets a reference to the given float64 and assigns it to the LiquidationPrice field.
+func (o *PositionData) SetLiquidationPrice(v float64) {
 	o.LiquidationPrice = &v
 }
 

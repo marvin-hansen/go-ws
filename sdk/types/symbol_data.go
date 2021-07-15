@@ -9,8 +9,8 @@ type SymbolData struct {
 	Asset_id_quote_exchange *string  `json:"asset_id_quote_exchange,omitempty"`
 	Asset_id_base_coinapi   *string  `json:"asset_id_base_coinapi,omitempty"`
 	Asset_id_quote_coinapi  *string  `json:"asset_id_quote_coinapi,omitempty"`
-	Price_precision         *float32 `json:"price_precision,omitempty"`
-	Size_precision          *float32 `json:"size_precision,omitempty"`
+	Price_precision         *float64 `json:"price_precision,omitempty"`
+	Size_precision          *float64 `json:"size_precision,omitempty"`
 }
 
 func (s SymbolData) String() string {

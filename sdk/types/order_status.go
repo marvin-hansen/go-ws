@@ -33,6 +33,31 @@ var allowedOrdStatusEnumValues = []OrdStatus{
 	"REJECTED",
 }
 
+func (v *OrdStatus) String() string {
+	switch *v {
+	case RECEIVED:
+		return "RECEIVED"
+	case ROUTING:
+		return "ROUTING"
+	case ROUTED:
+		return "ROUTED"
+	case NEW:
+		return "NEW"
+	case PENDING_CANCEL:
+		return "PENDING_CANCEL"
+	case PARTIALLY_FILLED:
+		return "PARTIALLY_FILLED"
+	case FILLED:
+		return "FILLED"
+	case CANCELED:
+		return "CANCELED"
+	case REJECTED:
+		return "REJECTED"
+	default:
+		return "UNKNOWN OrdStatus"
+	}
+}
+
 func (v *OrdStatus) UnmarshalJSON(src []byte) error {
 	var value string
 	err := json.Unmarshal(src, &value)

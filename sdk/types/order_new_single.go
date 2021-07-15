@@ -13,9 +13,9 @@ type OrderNewSingleRequest struct {
 	// CoinAPI symbol. One of the properties (`symbol_id_exchange`, `symbol_id_coinapi`) is required to identify the market for the new order.
 	SymbolIdCoinapi *string `json:"symbol_id_coinapi,omitempty"`
 	// Order quantity.
-	AmountOrder float32 `json:"amount_order"`
+	AmountOrder float64 `json:"amount_order"`
 	// Order price.
-	Price       float32     `json:"price"`
+	Price       float64     `json:"price"`
 	Side        OrdSide     `json:"side"`
 	OrderType   OrdType     `json:"order_type"`
 	TimeInForce TimeInForce `json:"time_in_force"`
@@ -29,7 +29,7 @@ type OrderNewSingleRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOrderNewSingleRequest(exchangeId string, clientOrderId string, amountOrder float32, price float32, side OrdSide, orderType OrdType, timeInForce TimeInForce) *OrderNewSingleRequest {
+func NewOrderNewSingleRequest(exchangeId string, clientOrderId string, amountOrder float64, price float64, side OrdSide, orderType OrdType, timeInForce TimeInForce) *OrderNewSingleRequest {
 	this := OrderNewSingleRequest{}
 	this.ExchangeId = exchangeId
 	this.ClientOrderId = clientOrderId
@@ -162,9 +162,9 @@ func (o *OrderNewSingleRequest) SetSymbolIdCoinapi(v string) {
 }
 
 // GetAmountOrder returns the AmountOrder field value
-func (o *OrderNewSingleRequest) GetAmountOrder() float32 {
+func (o *OrderNewSingleRequest) GetAmountOrder() float64 {
 	if o == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 
@@ -173,7 +173,7 @@ func (o *OrderNewSingleRequest) GetAmountOrder() float32 {
 
 // GetAmountOrderOk returns a tuple with the AmountOrder field value
 // and a boolean to check if the value has been set.
-func (o *OrderNewSingleRequest) GetAmountOrderOk() (*float32, bool) {
+func (o *OrderNewSingleRequest) GetAmountOrderOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -181,14 +181,14 @@ func (o *OrderNewSingleRequest) GetAmountOrderOk() (*float32, bool) {
 }
 
 // SetAmountOrder sets field value
-func (o *OrderNewSingleRequest) SetAmountOrder(v float32) {
+func (o *OrderNewSingleRequest) SetAmountOrder(v float64) {
 	o.AmountOrder = v
 }
 
 // GetPrice returns the Price field value
-func (o *OrderNewSingleRequest) GetPrice() float32 {
+func (o *OrderNewSingleRequest) GetPrice() float64 {
 	if o == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 
@@ -197,7 +197,7 @@ func (o *OrderNewSingleRequest) GetPrice() float32 {
 
 // GetPriceOk returns a tuple with the Price field value
 // and a boolean to check if the value has been set.
-func (o *OrderNewSingleRequest) GetPriceOk() (*float32, bool) {
+func (o *OrderNewSingleRequest) GetPriceOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -205,7 +205,7 @@ func (o *OrderNewSingleRequest) GetPriceOk() (*float32, bool) {
 }
 
 // SetPrice sets field value
-func (o *OrderNewSingleRequest) SetPrice(v float32) {
+func (o *OrderNewSingleRequest) SetPrice(v float64) {
 	o.Price = v
 }
 

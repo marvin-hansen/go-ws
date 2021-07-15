@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // Position struct for Position
@@ -9,6 +10,13 @@ type Position struct {
 	// Exchange identifier used to identify the routing destination.
 	ExchangeId *string         `json:"exchange_id,omitempty"`
 	Data       *[]PositionData `json:"data,omitempty"`
+}
+
+func (o *Position) String() string {
+	return fmt.Sprintf("<Position> ExchangeId: %v, Data: %v",
+		*o.ExchangeId,
+		*o.Data,
+	)
 }
 
 // NewPosition instantiates a new Position object

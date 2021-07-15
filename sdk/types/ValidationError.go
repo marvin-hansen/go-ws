@@ -8,7 +8,7 @@ import (
 type ValidationError struct {
 	Type    *string  `json:"type,omitempty"`
 	Title   *string  `json:"title,omitempty"`
-	Status  *float32 `json:"status,omitempty"`
+	Status  *float64 `json:"status,omitempty"`
 	TraceId *string  `json:"traceId,omitempty"`
 	Errors  *string  `json:"errors,omitempty"`
 }
@@ -95,9 +95,9 @@ func (o *ValidationError) SetTitle(v string) {
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *ValidationError) GetStatus() float32 {
+func (o *ValidationError) GetStatus() float64 {
 	if o == nil || o.Status == nil {
-		var ret float32
+		var ret float64
 		return ret
 	}
 	return *o.Status
@@ -105,7 +105,7 @@ func (o *ValidationError) GetStatus() float32 {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ValidationError) GetStatusOk() (*float32, bool) {
+func (o *ValidationError) GetStatusOk() (*float64, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -121,8 +121,8 @@ func (o *ValidationError) HasStatus() bool {
 	return false
 }
 
-// SetStatus gets a reference to the given float32 and assigns it to the Status field.
-func (o *ValidationError) SetStatus(v float32) {
+// SetStatus gets a reference to the given float64 and assigns it to the Status field.
+func (o *ValidationError) SetStatus(v float64) {
 	o.Status = &v
 }
 
