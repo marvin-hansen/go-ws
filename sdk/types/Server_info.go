@@ -13,12 +13,12 @@ type ServerInfo struct {
 	ServerStartTime *string `json:"time_server_start,omitempty"`
 }
 
-func (s *ServerInfo) String() string {
-	return fmt.Sprintf("<ServerInfo> Time: %v, ExchangeId: %v, InstanceGuid: %v, ServerVersion: %v, ServerName: %v, DnsName:  %v, IsRunning  %v, ServerStartTime: %v",
-		s.Time,
-		s.ExchangeId,
-		s.InstanceGuid,
-		s.ServerVersion,
+func (s ServerInfo) String() string {
+	return fmt.Sprintf("<ServerInfo> \n Time: %v, \n ExchangeId: %v, \n InstanceGuid: %v, \n ServerVersion: %v, \n ServerName: %v,  \n DnsName:  %v, \n IsRunning  %v, \n ServerStartTime: %v",
+		*s.Time,
+		*s.ExchangeId,
+		"API-KEY",
+		*s.ServerVersion,
 		*s.ServerName,
 		*s.DnsName,
 		*s.IsRunning,
