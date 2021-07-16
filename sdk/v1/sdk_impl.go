@@ -8,7 +8,6 @@ import (
 
 type SDKImpl struct {
 	url *string
-	ws  *web_socket.WebSocket
 }
 
 // AssetKey is a composite key for a hashmap to access symbol description
@@ -29,6 +28,7 @@ var (
 	positionUpdateInvoke    t.InvokeFunction
 	positionSnapshotInvoke  t.InvokeFunction
 	//
+	ws        *web_socket.WebSocket
 	symbolMap map[string]map[AssetKey]t.SymbolData
 )
 
@@ -42,9 +42,8 @@ func (s SDKImpl) init(url string) {
 	// init AssetMap
 	symbolMap = make(map[string]map[AssetKey]t.SymbolData)
 
-	ws := web_socket.NewWebSocket(url)
+	ws = web_socket.NewWebSocket(url)
 	s.url = &url
-	s.ws = ws
 	err := s.StartMessageProcessing()
 	if err != nil {
 		logError(err)
@@ -54,14 +53,14 @@ func (s SDKImpl) init(url string) {
 
 func (s SDKImpl) OpenConnection() (err error) {
 	url := *s.url
-	err = s.ws.Connect(url, nil)
+	err = ws.Connect(url, nil)
 	return err
 }
 
 func (s SDKImpl) CloseConnection() (err error) {
 
 	s.StopMessageProcessing()
-	err = s.ws.Close()
+	err = ws.Close()
 	if err != nil {
 		log.Println("Can't close connection")
 		log.Println(err)

@@ -8,7 +8,13 @@ import (
 func (s SDKImpl) PlaceSingleOrder(req *t.OrderNewSingleRequest) (err error) {
 	b, err := req.MarshalJSON()
 	logError(err)
-	err = s.sendMessage(b)
+
+	err = ws.WriteJSONMessage(b)
+	if err != nil {
+		log.Println("can't send message!")
+		logError(err)
+		return err
+	}
 	return checkError(err)
 }
 
@@ -27,7 +33,7 @@ func (s SDKImpl) CancelAllOrders(req *t.OrderCancelAllRequest) (err error) {
 }
 
 func (s SDKImpl) sendMessage(b []byte) (err error) {
-	err = s.ws.WriteByteMessage(b)
+	err = ws.WriteByteMessage(b)
 	if err != nil {
 		log.Println("can't send message!")
 		logError(err)

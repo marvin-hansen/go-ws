@@ -8,13 +8,13 @@ import (
 )
 
 func (s SDKImpl) StopMessageProcessing() {
-	s.ws.StopReadingByteMessages()
+	ws.StopReadingByteMessages()
 }
 
 func (s SDKImpl) StartMessageProcessing() (err error) {
 	errHandler := logError
 	handler := s.getWSMessageHandler(errHandler)
-	err = s.ws.StartReadingByteMessages(handler, errHandler)
+	err = ws.StartReadingByteMessages(handler, errHandler)
 	if err != nil {
 		log.Println("error starting message processing!")
 		logError(err)

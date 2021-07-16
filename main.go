@@ -11,54 +11,165 @@ import (
 //  kubectl port-forward svc/oeml-api-composite 8080:80
 const url = "ws://127.0.0.1:8080"
 const verbose = false
+const exchangeID = "BINANCE"
 
 func main() {
 	sdk := getSDK()
 	TestOrder(sdk)
+
+	//TestCancelAll(sdk)
+	//TestRequests(sdk)
+	//TestSymbolLookup(sdk)
 	//TestConnection(sdk)
+}
+
+func TestCancelAll(sdk t.SDK) {
+	time.Sleep(1 * time.Second)
+
+	printHeader(" * Construct cancel all request!")
+	reqCancelAll := sdk.NewCancelAllOrdersRequest(exchangeID)
+	b, _ := reqCancelAll.MarshalJSON()
+	println(string(b))
+
+	printHeader("Cancel all orders!")
+	err := sdk.CancelAllOrders(&reqCancelAll)
+	logError(err)
+	time.Sleep(7 * time.Second)
+
+	println()
+	println(" * CloseConnection!")
+	_ = sdk.CloseConnection()
+	println("Goodbye!")
+
+}
+
+func TestRequests(sdk t.SDK) {
+	time.Sleep(1 * time.Second)
+
+	baseID := "BTC"
+	quoteID := "USDT"
+	printHeader(" * Construct order!")
+	symbolData, _ := sdk.LookupSymbolData(exchangeID, baseID, quoteID)
+	symbolIdExchange := *symbolData.Symbol_id_base_exchange
+	symbolIdCoinapi := *symbolData.Symbol_id_coinapi
+	clientOrderID := "BINANCE-7d8a-4888"
+	amountOrder := 0.1
+	price := 30000.00
+	orderSide := t.BUY
+	orderType := t.LIMIT
+	timeInForce := t.GOOD_TILL_CANCEL
+
+	printHeader(" * Construct order request!")
+
+	reqOrder := sdk.NewSingleOrderRequest(exchangeID, symbolIdExchange, symbolIdCoinapi, clientOrderID, amountOrder, price, orderSide, orderType, timeInForce)
+	b, _ := reqOrder.MarshalJSON()
+	println(string(b))
+
+	printHeader(" * Construct cancel request!")
+	reqCancel := sdk.NewCancelSingleOrderRequest(exchangeID, "", clientOrderID)
+	b, _ = reqCancel.MarshalJSON()
+	println(string(b))
+
+	printHeader(" * Construct cancel all request!")
+	reqCancelAll := sdk.NewCancelAllOrdersRequest(exchangeID)
+	b, _ = reqCancelAll.MarshalJSON()
+	println(string(b))
+
+	println()
+	println(" * CloseConnection!")
+	_ = sdk.CloseConnection()
+	println("Goodbye!")
 }
 
 func TestOrder(sdk t.SDK) {
 	printHeader("TestOrder!")
+
 	time.Sleep(1 * time.Second)
 
-	printHeader("Lookup symbol!")
-
-	exchangeID := "BINANCE"
+	printHeader(" * Lookup symbol!")
+	// https://www.binance.com/en/trade/ATOM_BUSD?theme=dark&type=spot
 	baseID := "ATOM"
 	quoteID := "BUSD"
 	printSymbol(sdk, exchangeID, baseID, quoteID)
 
-	exchangeID = "BINANCE"
+	time.Sleep(1 * time.Second)
+
+	// https://www.binance.com/en/trade/BTC_USDT?theme=dark&type=spot
 	baseID = "BTC"
 	quoteID = "USDT"
 	printSymbol(sdk, exchangeID, baseID, quoteID)
 
-	printHeader("Construct order!")
+	time.Sleep(1 * time.Second)
 
+	printHeader(" * Construct order!")
+	symbolData, _ := sdk.LookupSymbolData(exchangeID, baseID, quoteID)
+	symbolIdExchange := *symbolData.Symbol_id_base_exchange
+	symbolIdCoinapi := *symbolData.Symbol_id_coinapi
+	clientOrderID := "BINANCE-7d8a-4888"
+	amountOrder := 0.1
+	price := 30000.00
+	orderSide := t.BUY
+	orderType := t.LIMIT
+	timeInForce := t.GOOD_TILL_CANCEL
+
+	printHeader(" * Construct order request!")
+
+	reqOrder := sdk.NewSingleOrderRequest(exchangeID, symbolIdExchange, symbolIdCoinapi, clientOrderID, amountOrder, price, orderSide, orderType, timeInForce)
+	b, _ := reqOrder.MarshalJSON()
+	println(string(b))
+
+	printHeader(" * Place  order!")
 	var err error
-	clientOrderID := "BINANCE-7d8a-4888-a733-6007093f8332"
-	//reqOrder := t.NewOrderNewSingleRequest(exchangeID, clientOrderID )
-	//err := sdk.PlaceSingleOrder(reqOrder)
-	//logError(err)
-
-	printHeader("Place  order!")
-
-	printHeader("Cancel order!")
-	reqCancel := sdk.NewCancelSingleOrderRequest(exchangeID, "", clientOrderID)
-	err = sdk.CancelSingleOrder(reqCancel)
+	err = sdk.PlaceSingleOrder(&reqOrder)
 	logError(err)
+	time.Sleep(10 * time.Second)
+
+	printHeader(" * Construct cancel request!")
+	reqCancel := sdk.NewCancelSingleOrderRequest(exchangeID, "", clientOrderID)
+	b, _ = reqCancel.MarshalJSON()
+	println(string(b))
+
+	printHeader(" * Cancel order!")
+	err = sdk.CancelSingleOrder(&reqCancel)
+	logError(err)
+	time.Sleep(10 * time.Second)
+
+	printHeader(" * Construct cancel all request!")
+	reqCancelAll := sdk.NewCancelAllOrdersRequest(exchangeID)
+	b, _ = reqCancelAll.MarshalJSON()
+	println(string(b))
 
 	printHeader("Cancel all orders!")
-	reqCacelAll := sdk.NewCancelAllOrdersRequest(exchangeID)
-	err = sdk.CancelAllOrders(reqCacelAll)
+	err = sdk.CancelAllOrders(&reqCancelAll)
 	logError(err)
+	time.Sleep(10 * time.Second)
 
+	println()
 	println(" * CloseConnection!")
 	_ = sdk.CloseConnection()
 
 	println("Goodbye!")
 
+}
+
+func TestSymbolLookup(sdk t.SDK) {
+
+	time.Sleep(1 * time.Second)
+
+	printHeader(" * Lookup symbol!")
+	// https://www.binance.com/en/trade/ATOM_BUSD?theme=dark&type=spot
+	baseID := "ATOM"
+	quoteID := "BUSD"
+	printSymbol(sdk, exchangeID, baseID, quoteID)
+
+	time.Sleep(1 * time.Second)
+
+	// https://www.binance.com/en/trade/BTC_USDT?theme=dark&type=spot
+	baseID = "BTC"
+	quoteID = "USDT"
+	printSymbol(sdk, exchangeID, baseID, quoteID)
+
+	time.Sleep(1 * time.Second)
 }
 
 func TestConnection(sdk t.SDK) {
@@ -99,7 +210,7 @@ func logError(err error) {
 func printHeader(msg string) {
 	println()
 	println("=====================")
-	println("Start: " + msg)
+	println(msg)
 	println("=====================")
 	println()
 }

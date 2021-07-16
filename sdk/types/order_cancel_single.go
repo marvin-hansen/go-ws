@@ -1,11 +1,14 @@
 package types
 
 import (
+	"bytes"
 	"encoding/json"
 )
 
 // OrderCancelSingleRequest Cancel single order request object.
 type OrderCancelSingleRequest struct {
+	// Message type to identity the request
+	MessageType MessageType `json:"type"`
 	// Exchange identifier used to identify the routing destination.
 	ExchangeId string `json:"exchange_id"`
 	// Unique identifier of the order assigned by the exchange or executing system. One of the properties (`exchange_order_id`, `client_order_id`) is required to identify the new order.
@@ -131,41 +134,14 @@ func (o OrderCancelSingleRequest) MarshalJSON() ([]byte, error) {
 	if o.ClientOrderId != nil {
 		toSerialize["client_order_id"] = o.ClientOrderId
 	}
-	return json.Marshal(toSerialize)
-}
+	if true {
+		toSerialize["type"] = o.MessageType
+	}
 
-type NullableOrderCancelSingleRequest struct {
-	value *OrderCancelSingleRequest
-	isSet bool
-}
+	var b []byte
+	b, err := json.Marshal(toSerialize)
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, b, "", "\t")
 
-func (v NullableOrderCancelSingleRequest) Get() *OrderCancelSingleRequest {
-	return v.value
-}
-
-func (v *NullableOrderCancelSingleRequest) Set(val *OrderCancelSingleRequest) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableOrderCancelSingleRequest) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableOrderCancelSingleRequest) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableOrderCancelSingleRequest(val *OrderCancelSingleRequest) *NullableOrderCancelSingleRequest {
-	return &NullableOrderCancelSingleRequest{value: val, isSet: true}
-}
-
-func (v NullableOrderCancelSingleRequest) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
-}
-
-func (v *NullableOrderCancelSingleRequest) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	return b, err
 }

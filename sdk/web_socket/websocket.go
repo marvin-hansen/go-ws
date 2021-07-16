@@ -35,6 +35,7 @@ func (s *WebSocket) Connect(url string, requestHeader http.Header) (err error) {
 }
 
 func (s *WebSocket) Close() (err error) {
+	con.CloseHandler()
 	err = con.Close()
 	if err != nil {
 		log.Println("Can't close connection")
@@ -43,11 +44,20 @@ func (s *WebSocket) Close() (err error) {
 	return err
 }
 
-func (s *WebSocket) WriteByteMessage(byteMessage []byte) (err error) {
+func (s *WebSocket) WriteJSONMessage(message interface{}) (err error) {
+	err = con.WriteJSON(message)
+	if err != nil {
+		log.Println("can't send message!")
+		logError(err)
+		return err
+	}
+	return nil
+}
 
+func (s *WebSocket) WriteByteMessage(byteMessage []byte) (err error) {
 	err = con.WriteMessage(1, byteMessage)
 	if err != nil {
-		log.Println("can't send Hello message!")
+		log.Println("can't send message: " + string(byteMessage))
 		logError(err)
 		return err
 	}

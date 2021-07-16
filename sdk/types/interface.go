@@ -6,9 +6,9 @@ type SDK interface {
 	ResetConnection() (err error)
 	//
 	LookupSymbolData(exchangeID, baseSymbolCoinApi, quoteSymbolCoinApi string) (symbolData SymbolData, ok bool)
-	NewSingleOrderRequest(symbolData SymbolData, exchangeId string, clientOrderId string, amountOrder float64, price float64, side OrdSide, orderType OrdType, timeInForce TimeInForce) (req *OrderNewSingleRequest)
-	NewCancelSingleOrderRequest(exchangeId, exchangeOrderId, clientOrderId string) (req *OrderCancelSingleRequest)
-	NewCancelAllOrdersRequest(exchangeId string) (req *OrderCancelAllRequest)
+	NewSingleOrderRequest(exchangeId, SymbolIdExchange, SymbolIdCoinapi string, clientOrderId string, amountOrder float64, price float64, side OrdSide, orderType OrdType, timeInForce TimeInForce) (req OrderNewSingleRequest)
+	NewCancelSingleOrderRequest(exchangeId, exchangeOrderId, clientOrderId string) (req OrderCancelSingleRequest)
+	NewCancelAllOrdersRequest(exchangeId string) (req OrderCancelAllRequest)
 	//
 	PlaceSingleOrder(req *OrderNewSingleRequest) (err error)
 	CancelSingleOrder(req *OrderCancelSingleRequest) (err error)

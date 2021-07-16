@@ -1,9 +1,14 @@
 package types
 
-import "encoding/json"
+import (
+	"bytes"
+	"encoding/json"
+)
 
 // OrderNewSingleRequest The new order message.
 type OrderNewSingleRequest struct {
+	// Message type to identity the request
+	MessageType MessageType `json:"type"`
 	// Exchange identifier used to identify the routing destination.
 	ExchangeId string `json:"exchange_id"`
 	// The unique identifier of the order assigned by the client.
@@ -347,6 +352,11 @@ func (o *OrderNewSingleRequest) SetExecInst(v []string) {
 
 func (o OrderNewSingleRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+
+	if true {
+		toSerialize["type"] = o.MessageType
+	}
+
 	if true {
 		toSerialize["exchange_id"] = o.ExchangeId
 	}
@@ -380,41 +390,11 @@ func (o OrderNewSingleRequest) MarshalJSON() ([]byte, error) {
 	if o.ExecInst != nil {
 		toSerialize["exec_inst"] = o.ExecInst
 	}
-	return json.Marshal(toSerialize)
-}
 
-type NullableOrderNewSingleRequest struct {
-	value *OrderNewSingleRequest
-	isSet bool
-}
+	var b []byte
+	b, err := json.Marshal(toSerialize)
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, b, "", "\t")
 
-func (v NullableOrderNewSingleRequest) Get() *OrderNewSingleRequest {
-	return v.value
-}
-
-func (v *NullableOrderNewSingleRequest) Set(val *OrderNewSingleRequest) {
-	v.value = val
-	v.isSet = true
-}
-
-func (v NullableOrderNewSingleRequest) IsSet() bool {
-	return v.isSet
-}
-
-func (v *NullableOrderNewSingleRequest) Unset() {
-	v.value = nil
-	v.isSet = false
-}
-
-func NewNullableOrderNewSingleRequest(val *OrderNewSingleRequest) *NullableOrderNewSingleRequest {
-	return &NullableOrderNewSingleRequest{value: val, isSet: true}
-}
-
-func (v NullableOrderNewSingleRequest) MarshalJSON() ([]byte, error) {
-	return json.Marshal(v.value)
-}
-
-func (v *NullableOrderNewSingleRequest) UnmarshalJSON(src []byte) error {
-	v.isSet = true
-	return json.Unmarshal(src, &v.value)
+	return b, err
 }
