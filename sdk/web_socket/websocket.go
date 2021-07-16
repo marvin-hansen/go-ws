@@ -55,6 +55,8 @@ func (s *WebSocket) WriteJSONMessage(message interface{}) (err error) {
 }
 
 func (s *WebSocket) WriteByteMessage(byteMessage []byte) (err error) {
+	println("WS/WriteByteMessage: ")
+	println(string(byteMessage))
 	err = con.WriteMessage(1, byteMessage)
 	if err != nil {
 		log.Println("can't send message: " + string(byteMessage))

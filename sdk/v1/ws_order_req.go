@@ -3,17 +3,17 @@ package v1
 import "go-ws/sdk/types"
 
 func (s SDKImpl) NewSingleOrderRequest(exchangeId, symbolIdExchange, symbolIdCoinapi string, clientOrderId string, amountOrder float64, price float64, side types.OrdSide, orderType types.OrdType, timeInForce types.TimeInForce) (req types.OrderNewSingleRequest) {
+
 	req = types.OrderNewSingleRequest{
-		MessageType:      types.ORDER_NEW_SINGLE_REQUEST,
-		ExchangeId:       exchangeId,
-		SymbolIdExchange: &symbolIdExchange,
-		SymbolIdCoinapi:  &symbolIdCoinapi,
-		ClientOrderId:    clientOrderId,
-		AmountOrder:      amountOrder,
-		Price:            price,
-		Side:             side,
-		OrderType:        orderType,
-		TimeInForce:      timeInForce,
+		MessageType:     types.ORDER_NEW_SINGLE_REQUEST,
+		ExchangeId:      exchangeId,
+		SymbolIdCoinapi: &symbolIdCoinapi,
+		ClientOrderId:   clientOrderId,
+		AmountOrder:     amountOrder,
+		Price:           price,
+		Side:            side,
+		OrderType:       orderType,
+		TimeInForce:     timeInForce,
 	}
 	return req
 }

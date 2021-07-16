@@ -1,10 +1,14 @@
 package main
 
 import (
-	"errors"
+	"fmt"
 	SDK "go-ws/sdk"
 	t "go-ws/sdk/types"
+	"io"
+	"io/ioutil"
 	"log"
+	"net/http"
+	"strings"
 	"time"
 )
 
@@ -12,15 +16,71 @@ import (
 const url = "ws://127.0.0.1:8080"
 const verbose = false
 const exchangeID = "BINANCE"
+const (
+	wait = 3
+)
 
 func main() {
 	sdk := getSDK()
+
+	//TestRestGetOrders()
+	//TestRestCancelAllOrder()
+
 	TestOrder(sdk)
 
 	//TestCancelAll(sdk)
 	//TestRequests(sdk)
 	//TestSymbolLookup(sdk)
 	//TestConnection(sdk)
+}
+
+func TestRestCancelAllOrder() {
+	restUrl := "http://127.0.0.1:8080/v1/orders/cancel/all"
+
+	payload := strings.NewReader("{\"exchange_id\":\"BINANCE\"}")
+
+	req, _ := http.NewRequest("POST", restUrl, payload)
+
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/json")
+
+	res, _ := http.DefaultClient.Do(req)
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(res.Body)
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println(res)
+	fmt.Println(string(body))
+}
+
+func TestRestGetOrders() {
+
+	restUrl := "http://127.0.0.1:8080/v1/orders"
+	req, _ := http.NewRequest("GET", restUrl, nil)
+
+	req.Header.Add("Accept", "application/json")
+
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		panic("Cant send REST request!")
+	}
+
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(res.Body)
+	body, _ := ioutil.ReadAll(res.Body)
+
+	fmt.Println(res)
+	fmt.Println(string(body))
+
 }
 
 func TestCancelAll(sdk t.SDK) {
@@ -101,18 +161,16 @@ func TestOrder(sdk t.SDK) {
 
 	time.Sleep(1 * time.Second)
 
-	printHeader(" * Construct order!")
+	printHeader(" * Construct order request!")
 	symbolData, _ := sdk.LookupSymbolData(exchangeID, baseID, quoteID)
 	symbolIdExchange := *symbolData.Symbol_id_base_exchange
 	symbolIdCoinapi := *symbolData.Symbol_id_coinapi
-	clientOrderID := "BINANCE-7d8a-4888"
+	clientOrderID := "6ab36bc1-344d"
 	amountOrder := 0.1
 	price := 30000.00
 	orderSide := t.BUY
 	orderType := t.LIMIT
 	timeInForce := t.GOOD_TILL_CANCEL
-
-	printHeader(" * Construct order request!")
 
 	reqOrder := sdk.NewSingleOrderRequest(exchangeID, symbolIdExchange, symbolIdCoinapi, clientOrderID, amountOrder, price, orderSide, orderType, timeInForce)
 	b, _ := reqOrder.MarshalJSON()
@@ -122,7 +180,7 @@ func TestOrder(sdk t.SDK) {
 	var err error
 	err = sdk.PlaceSingleOrder(&reqOrder)
 	logError(err)
-	time.Sleep(10 * time.Second)
+	time.Sleep(wait * time.Second)
 
 	printHeader(" * Construct cancel request!")
 	reqCancel := sdk.NewCancelSingleOrderRequest(exchangeID, "", clientOrderID)
@@ -132,7 +190,7 @@ func TestOrder(sdk t.SDK) {
 	printHeader(" * Cancel order!")
 	err = sdk.CancelSingleOrder(&reqCancel)
 	logError(err)
-	time.Sleep(10 * time.Second)
+	time.Sleep(wait * time.Second)
 
 	printHeader(" * Construct cancel all request!")
 	reqCancelAll := sdk.NewCancelAllOrdersRequest(exchangeID)
@@ -142,7 +200,7 @@ func TestOrder(sdk t.SDK) {
 	printHeader("Cancel all orders!")
 	err = sdk.CancelAllOrders(&reqCancelAll)
 	logError(err)
-	time.Sleep(10 * time.Second)
+	time.Sleep(wait * time.Second)
 
 	println()
 	println(" * CloseConnection!")
@@ -220,7 +278,6 @@ func printSymbol(sdk t.SDK, exchangeID, baseID, quoteID string) {
 	println("Lookup symbol for: " + baseID + "/" + quoteID)
 	symbol, ok := sdk.LookupSymbolData(exchangeID, baseID, quoteID)
 	if ok {
-		println("OK:")
 		println(symbol.String())
 	}
 	println("")
@@ -263,11 +320,12 @@ func GetErrorInvoke() t.InvokeFunction {
 	return func(message *t.DataMessage) (err error) {
 		mtd := "ErrorHandler: "
 		println(mtd)
-		msg := message.Message.GetMessage()
-		if msg != "" {
-			log.Println(mtd+"ErrorMessage: ", msg)
-			return errors.New(msg)
-		}
+		msg := message.Message //.GetMessage()
+		println(msg.String())
+		//if msg != "" {
+		//	log.Println(mtd+"ErrorMessage: ", msg)
+		//	return errors.New(msg)
+		//}
 		return nil
 	}
 }
@@ -282,7 +340,7 @@ func GetInvokeFunction(msgType t.MessageType) t.InvokeFunction {
 func printMessage(msgType t.MessageType, message *t.DataMessage) {
 	switch msgType {
 	case t.SERVER_INFO:
-		log.Println("ServerInfo/Heartbeat")
+		log.Println("ServerInfo/Heartbeat: " + *message.ServerInfo.ExchangeId)
 		if verbose {
 			msg := message
 			log.Println(msg.ServerInfo)
@@ -290,10 +348,13 @@ func printMessage(msgType t.MessageType, message *t.DataMessage) {
 		}
 
 	case t.ORDER_EXEC_REPORT_SNAPSHOT:
-		log.Println("OrderExecutionReportSnapshot")
-		msg := message
-		log.Println(msg.OrderExecutionReportSnapshot)
-		println()
+		log.Println("OrderExecutionReportSnapshot: " + message.OrderExecutionReportSnapshot.ExchangeId)
+		if verbose {
+			msg := message
+			log.Println(msg.OrderExecutionReportSnapshot)
+			println()
+		}
+
 	case t.ORDER_EXEC_REPORT_UPDATE:
 		log.Println("OrderExecutionReportUpdate")
 		msg := message
@@ -301,35 +362,40 @@ func printMessage(msgType t.MessageType, message *t.DataMessage) {
 		println()
 	case t.BALANCE_SNAPSHOT:
 		msg := message
-		log.Println("BalanceSnapshot")
-		log.Println(msg.BalanceSnapshot)
-		println()
+		if verbose {
+			log.Println("BalanceSnapshot" + *message.BalanceSnapshot.ExchangeId)
+			log.Println(msg.BalanceSnapshot)
+			println()
+		}
 	case t.BALANCE_UPDATE:
 		msg := message
 		log.Println("BalanceUpdate")
 		log.Println(msg.BalanceUpdate)
 		println()
+
 	case t.POSITION_SNAPSHOT:
-		log.Println("PositionSnapshot")
-		msg := message
-		log.Println(msg.PositionSnapshot)
-		println()
+		log.Println("PositionSnapshot: " + *message.PositionSnapshot.ExchangeId)
+		if verbose {
+			msg := message
+			log.Println(msg.PositionSnapshot)
+			println()
+		}
 	case t.POSITION_UPDATE:
 		log.Println("PositionUpdate")
 		msg := message
 		log.Println(msg.PositionUpdate)
 		println()
 	case t.SYMBOLS_SNAPSHOT:
-		log.Println("SymbolSnapshot")
+		log.Println("SymbolSnapshot: " + *message.SymbolSnapshot.ExchangeId)
 		if verbose {
 			msg := message
 			log.Println(msg.SymbolSnapshot)
+			println()
 		}
-		println()
 	case t.MESSAGE:
 		log.Println("Message")
-		msg := message
-		log.Println(msg.Message)
+		msg := message.Message
+		log.Println(msg.String())
 		println()
 	}
 }

@@ -133,6 +133,7 @@ func (s SDKImpl) processMessage(message []byte, errHandler t.WsErrHandler) (err 
 		return checkError(err)
 
 	case t.MESSAGE:
+		println("MESSAGE")
 		msg := new(t.Message)
 		_ = json.Unmarshal(message, msg)
 		dataMessage.Message = msg

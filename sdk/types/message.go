@@ -15,6 +15,11 @@ type Message struct {
 	Message *string `json:"message,omitempty"`
 }
 
+func (o *Message) String() string {
+	s := "Type " + string(*o.Type) + "Message: " + *o.Message
+	return s
+}
+
 // NewMessage instantiates a new Message object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
