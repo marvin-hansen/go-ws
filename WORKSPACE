@@ -125,3 +125,10 @@ go_repository(
     sum = "h1:jCLqQfIySgWHu88Of0sd6gWRdZh0lp9vI5/tHF7azgE=",
     version = "v0.0.0-20210625123735-50d3e13b5b94",
 )
+
+go_repository(
+    name = "com_github_iancoleman_orderedmap",
+    importpath = "github.com/iancoleman/orderedmap",
+    sum = "h1:sq1N/TFpYH++aViPcaKjys3bDClUEU7s5B+z6jq8pNA=",
+    version = "v0.2.0",
+)
