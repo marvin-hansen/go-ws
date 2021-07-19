@@ -7,8 +7,7 @@ import (
 	"net/http"
 )
 
-type WebSocket struct {
-}
+type WebSocket struct{}
 
 var (
 	con   *websocket.Conn
@@ -44,19 +43,13 @@ func (s *WebSocket) Close() (err error) {
 	return err
 }
 
-func (s *WebSocket) WriteJSONMessage(message interface{}) (err error) {
-	err = con.WriteJSON(message)
-	if err != nil {
-		log.Println("can't send message!")
-		logError(err)
-		return err
+func (s *WebSocket) StopReadingByteMessages() {
+	if stopC != nil {
+		close(stopC)
 	}
-	return nil
 }
 
 func (s *WebSocket) WriteByteMessage(byteMessage []byte) (err error) {
-	println("WS/WriteByteMessage: ")
-	println(string(byteMessage))
 	err = con.WriteMessage(1, byteMessage)
 	if err != nil {
 		log.Println("can't send message: " + string(byteMessage))
@@ -102,10 +95,4 @@ func (s *WebSocket) StartReadingByteMessages(messageHandler types.WsHandler, err
 		}
 	}()
 	return
-}
-
-func (s *WebSocket) StopReadingByteMessages() {
-	if stopC != nil {
-		close(stopC)
-	}
 }
