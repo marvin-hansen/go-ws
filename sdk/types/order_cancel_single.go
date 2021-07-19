@@ -3,12 +3,14 @@ package types
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/iancoleman/orderedmap"
+	"log"
 )
 
 // OrderCancelSingleRequest Cancel single order request object.
 type OrderCancelSingleRequest struct {
 	// Message type to identity the request
-	MessageType MessageType `json:"type"`
+	Type MessageType `json:"type"`
 	// Exchange identifier used to identify the routing destination.
 	ExchangeId string `json:"exchange_id"`
 	// Unique identifier of the order assigned by the exchange or executing system. One of the properties (`exchange_order_id`, `client_order_id`) is required to identify the new order.
@@ -123,25 +125,32 @@ func (o *OrderCancelSingleRequest) SetClientOrderId(v string) {
 	o.ClientOrderId = &v
 }
 
-func (o OrderCancelSingleRequest) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["exchange_id"] = o.ExchangeId
+func (o OrderCancelSingleRequest) MarshalJSON() (b []byte, err error) {
+	oMap := orderedmap.New()
+	oMap.SetEscapeHTML(false)
+	oMap.Set("type", o.Type)
+	oMap.Set("exchange_id", o.ExchangeId)
+	if o.ExchangeOrderId == nil {
+		oMap.Set("client_order_id", o.ClientOrderId)
 	}
-	if o.ExchangeOrderId != nil {
-		toSerialize["exchange_order_id"] = o.ExchangeOrderId
-	}
-	if o.ClientOrderId != nil {
-		toSerialize["client_order_id"] = o.ClientOrderId
-	}
-	if true {
-		toSerialize["type"] = o.MessageType
+	if o.ClientOrderId == nil {
+		oMap.Set("exchange_order_id", o.ExchangeOrderId)
 	}
 
-	var b []byte
-	b, err := json.Marshal(toSerialize)
+	b, err = json.Marshal(oMap)
+	if err != nil {
+		log.Println("Error marshaling Hello object")
+		log.Println(err)
+		return nil, err
+	}
+
 	var prettyJSON bytes.Buffer
 	err = json.Indent(&prettyJSON, b, "", "\t")
+	if err != nil {
+		log.Println("Error making JSON pretty")
+		log.Println(err)
+		return nil, err
+	}
 
 	return b, err
 }

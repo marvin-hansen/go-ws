@@ -3,12 +3,13 @@ package types
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/iancoleman/orderedmap"
 )
 
 // OrderNewSingleRequest The new order message.
 type OrderNewSingleRequest struct {
 	// Message type to identity the request
-	MessageType MessageType `json:"type"`
+	Type MessageType `json:"type"`
 	// Exchange identifier used to identify the routing destination.
 	ExchangeId string `json:"exchange_id"`
 	// The unique identifier of the order assigned by the client.
@@ -28,30 +29,6 @@ type OrderNewSingleRequest struct {
 	ExpireTime *string `json:"expire_time,omitempty"`
 	// Order execution instructions are documented in the separate section: <a href=\"#oeml-order-params-exec\">OEML / Starter Guide / Order parameters / Execution instructions</a>
 	ExecInst *[]string `json:"exec_inst,omitempty"`
-}
-
-// NewOrderNewSingleRequest instantiates a new OrderNewSingleRequest object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewOrderNewSingleRequest(exchangeId string, clientOrderId string, amountOrder float64, price float64, side OrdSide, orderType OrdType, timeInForce TimeInForce) *OrderNewSingleRequest {
-	this := OrderNewSingleRequest{}
-	this.ExchangeId = exchangeId
-	this.ClientOrderId = clientOrderId
-	this.AmountOrder = amountOrder
-	this.Price = price
-	this.Side = side
-	this.OrderType = orderType
-	this.TimeInForce = timeInForce
-	return &this
-}
-
-// NewOrderNewSingleRequestWithDefaults instantiates a new OrderNewSingleRequest object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewOrderNewSingleRequestWithDefaults() *OrderNewSingleRequest {
-	this := OrderNewSingleRequest{}
-	return &this
 }
 
 // GetExchangeId returns the ExchangeId field value
@@ -351,44 +328,43 @@ func (o *OrderNewSingleRequest) SetExecInst(v []string) {
 }
 
 func (o OrderNewSingleRequest) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-
+	toSerialize := orderedmap.New()
+	toSerialize.SetEscapeHTML(false)
 	if true {
-		toSerialize["type"] = o.MessageType
-	}
-
-	if true {
-		toSerialize["exchange_id"] = o.ExchangeId
+		toSerialize.Set("type", o.Type)
 	}
 	if true {
-		toSerialize["client_order_id"] = o.ClientOrderId
+		toSerialize.Set("exchange_id", o.ExchangeId)
+	}
+	if true {
+		toSerialize.Set("client_order_id", o.ClientOrderId)
 	}
 	if o.SymbolIdExchange != nil {
-		toSerialize["symbol_id_exchange"] = o.SymbolIdExchange
+		toSerialize.Set("symbol_id_exchange", o.SymbolIdExchange)
 	}
 	if o.SymbolIdCoinapi != nil {
-		toSerialize["symbol_id_coinapi"] = o.SymbolIdCoinapi
+		toSerialize.Set("symbol_id_coinapi", o.SymbolIdCoinapi)
 	}
 	if true {
-		toSerialize["amount_order"] = o.AmountOrder
+		toSerialize.Set("amount_order", o.AmountOrder)
 	}
 	if true {
-		toSerialize["price"] = o.Price
+		toSerialize.Set("price", o.Price)
 	}
 	if true {
-		toSerialize["side"] = o.Side
+		toSerialize.Set("side", o.Side)
 	}
 	if true {
-		toSerialize["order_type"] = o.OrderType
+		toSerialize.Set("order_type", o.OrderType)
 	}
 	if true {
-		toSerialize["time_in_force"] = o.TimeInForce
+		toSerialize.Set("time_in_force", o.TimeInForce)
 	}
 	if o.ExpireTime != nil {
-		toSerialize["expire_time"] = o.ExpireTime
+		toSerialize.Set("expire_time", o.ExpireTime)
 	}
 	if o.ExecInst != nil {
-		toSerialize["exec_inst"] = o.ExecInst
+		toSerialize.Set("exec_inst", o.ExecInst)
 	}
 
 	var b []byte

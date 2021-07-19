@@ -32,4 +32,5 @@ go_library(
     ],
     importpath = "go-ws/sdk/types",
     visibility = ["//visibility:public"],
+    deps = ["@com_github_iancoleman_orderedmap//:go_default_library"],
 )
