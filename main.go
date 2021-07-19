@@ -7,14 +7,15 @@ import (
 	"time"
 )
 
-//  kubectl port-forward svc/oeml-api-composite 8080:80
+// kubectl port-forward svc/oeml-api-composite 8080:80
+// websocat -s 8080
 const (
 	url           = "ws://127.0.0.1:8080"
 	wait          = 5
+	websocat      = false
 	verbose       = false
 	exchangeID    = "BINANCE"
 	clientOrderID = "BINANCE-7d8a-4888"
-	websocat      = true
 )
 
 func main() {
@@ -25,6 +26,25 @@ func main() {
 	TestCancelSingleOrder(sdk)
 	TestCancelAll(sdk)
 	CloseSocket(sdk)
+}
+
+func getSDK(url string) (sdk t.SDK) {
+	println(" * NewSDK!")
+	sdk = SDK.NewSDK(url)
+
+	println(" * SetSysInvoke!")
+	sysInvoke := GetSysInvoke()
+	sdk.SetSystemInvoke(sysInvoke)
+
+	println(" * SetSysSnapshotInvoke!")
+	snapInvoke := GetSnapshotInvoke()
+	sdk.SetSnapshotInvoke(snapInvoke)
+
+	println(" * SetSysSnapshotInvoke!")
+	updInvoke := GetUpdateInvoke()
+	sdk.SetUpdateInvoke(updInvoke)
+
+	return sdk
 }
 
 func TestSymbolLookup(sdk t.SDK) {
@@ -92,8 +112,6 @@ func TestCancelSingleOrder(sdk t.SDK) {
 	err := sdk.CancelSingleOrder(reqCancel)
 	logError(err)
 	time.Sleep(wait * time.Second)
-
-	CloseSocket(sdk)
 }
 
 func TestCancelAll(sdk t.SDK) {
@@ -119,25 +137,6 @@ func CloseSocket(sdk t.SDK) {
 	println(" * CloseConnection!")
 	_ = sdk.CloseConnection()
 	println("Goodbye!")
-}
-
-func getSDK(url string) (sdk t.SDK) {
-	println(" * NewSDK!")
-	sdk = SDK.NewSDK(url)
-
-	println(" * SetSysInvoke!")
-	sysInvoke := GetSysInvoke()
-	sdk.SetSystemInvoke(sysInvoke)
-
-	println(" * SetSysSnapshotInvoke!")
-	snapInvoke := GetSnapshotInvoke()
-	sdk.SetSnapshotInvoke(snapInvoke)
-
-	println(" * SetSysSnapshotInvoke!")
-	updInvoke := GetUpdateInvoke()
-	sdk.SetUpdateInvoke(updInvoke)
-
-	return sdk
 }
 
 func logError(err error) {
@@ -251,7 +250,7 @@ func printMessage(msgType t.MessageType, message *t.DataMessage) {
 	case t.BALANCE_UPDATE:
 		msg := message
 		log.Println("BalanceUpdate")
-		log.Println(msg.BalanceUpdate)
+		log.Println(msg.BalanceUpdate.String())
 		println()
 
 	case t.POSITION_SNAPSHOT:

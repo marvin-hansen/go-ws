@@ -14,26 +14,9 @@ type Balance struct {
 
 func (o *Balance) String() string {
 	return fmt.Sprintf("<Balance> ExchangeId: %v, Data: %v",
-		*o.ExchangeId,
-		*o.Data,
+		o.GetExchangeId(),
+		o.GetData(),
 	)
-}
-
-// NewBalance instantiates a new Balance object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewBalance() *Balance {
-	this := Balance{}
-	return &this
-}
-
-// NewBalanceWithDefaults instantiates a new Balance object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewBalanceWithDefaults() *Balance {
-	this := Balance{}
-	return &this
 }
 
 // GetExchangeId returns the ExchangeId field value if set, zero value otherwise.

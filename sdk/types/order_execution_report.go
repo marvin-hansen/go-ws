@@ -46,27 +46,27 @@ type OrderExecutionReport struct {
 }
 
 func (o *OrderExecutionReport) String() string {
-	return fmt.Sprintf("<OrderExecutionReport> ExchangeId: %v, ClientOrderId: %v, SymbolIdExchange: %v, SymbolIdCoinapi: %v, AmountOrder: %v, Price: %v, Side: %v, OrderType: %v, TimeInForce: %v, ExpireTime: %v, ExecInst: %v, ClientOrderIdFormatExchange: %v, ExchangeOrderId: %v, AmountOpen: %v, AmountFilled: %v, AvgPx: %v, Status: %v, StatusHistory: %v, ErrorMessage: %v, Fills: %v",
-		o.ExchangeId,
-		o.ClientOrderId,
-		o.SymbolIdExchange,
-		o.SymbolIdCoinapi,
-		o.AmountOrder,
-		o.Price,
-		o.Status,
-		o.OrderType,
-		o.TimeInForce,
-		o.ExpireTime,
-		o.ExecInst,
-		o.ClientOrderIdFormatExchange,
-		o.ExchangeOrderId,
-		o.AmountOpen,
-		o.AmountFilled,
-		o.AvgPx,
-		o.Status,
-		o.StatusHistory,
-		o.ErrorMessage,
-		o.Fills,
+	return fmt.Sprintf("<OrderExecutionReport> \n ExchangeId: %v, \n ClientOrderId: %v, \n SymbolIdExchange: %v, \n SymbolIdCoinapi: %v, \n AmountOrder: %v, \n Price: %v, \n Side: %v, \n OrderType: %v, \n TimeInForce: %v, \n ExpireTime: %v, \n ExecInst: %v, \n ClientOrderIdFormatExchange: %v, \n ExchangeOrderId: %v, \n AmountOpen: %v, \n AmountFilled: %v, \n AvgPrice: %v, \n Status: %v, \n StatusHistory: %v, \n ErrorMessage: %v, \n Fills: %v",
+		o.GetExchangeId(),
+		o.GetClientOrderId(),
+		o.GetSymbolIdExchange(),
+		o.GetSymbolIdCoinapi(),
+		o.GetAmountOrder(),
+		o.GetPrice(),
+		o.GetSide(),
+		o.GetOrderType(),
+		o.GetTimeInForce(),
+		o.GetExpireTime(),
+		o.GetExecInst(),
+		o.GetClientOrderIdFormatExchange(),
+		o.GetExchangeOrderId(),
+		o.GetAmountOpen(),
+		o.GetAmountFilled(),
+		o.GetAvgPx(),
+		o.GetStatus(),
+		o.GetStatusHistory(),
+		o.GetErrorMessage(),
+		o.GetFills(),
 	)
 }
 
@@ -104,7 +104,6 @@ func (o *OrderExecutionReport) GetExchangeId() string {
 		var ret string
 		return ret
 	}
-
 	return o.ExchangeId
 }
 
@@ -128,7 +127,6 @@ func (o *OrderExecutionReport) GetClientOrderId() string {
 		var ret string
 		return ret
 	}
-
 	return o.ClientOrderId
 }
 
@@ -201,7 +199,6 @@ func (o *OrderExecutionReport) HasSymbolIdCoinapi() bool {
 	if o != nil && o.SymbolIdCoinapi != nil {
 		return true
 	}
-
 	return false
 }
 
@@ -216,7 +213,6 @@ func (o *OrderExecutionReport) GetAmountOrder() float64 {
 		var ret float64
 		return ret
 	}
-
 	return o.AmountOrder
 }
 
@@ -240,7 +236,6 @@ func (o *OrderExecutionReport) GetPrice() float64 {
 		var ret float64
 		return ret
 	}
-
 	return o.Price
 }
 
