@@ -19,7 +19,6 @@ const (
 
 func main() {
 	sdk := getSDK(url)
-	time.Sleep(wait * time.Second)
 
 	TestSymbolLookup(sdk)
 	TestPlaceSingleOrder(sdk)
